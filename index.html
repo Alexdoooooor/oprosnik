@@ -582,18 +582,18 @@
             <button class="modal-close" id="closeAdminModalBtn">
                 <i data-lucide="x" size="20"></i>
             </button>
-            <h2 class="display-medium" style="margin-bottom: 24px;">Вход для администратора</h2>
+            <h2 class="display-medium" style="margin-bottom: 24px;" data-i18n="admin_login_title">Вход для администратора</h2>
             <div style="display: flex; flex-direction: column; gap: 16px;">
                 <div>
-                    <label for="adminUsername" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Логин</label>
+                    <label for="adminUsername" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);" data-i18n="admin_login_username">Логин</label>
                     <input type="text" id="adminUsername" placeholder="Введите логин" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
                 </div>
                 <div>
-                    <label for="adminPassword" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Пароль</label>
+                    <label for="adminPassword" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);" data-i18n="admin_login_password">Пароль</label>
                     <input type="password" id="adminPassword" placeholder="Введите пароль" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
                 </div>
-                <p id="adminLoginError" style="color: #ef4444; font-size: 0.875rem; display: none;">Неверный логин или пароль</p>
-                <button id="submitAdminLoginBtn" class="btn btn-primary" style="width: 100%; margin-top: 8px;">Войти</button>
+                <p id="adminLoginError" style="color: #ef4444; font-size: 0.875rem; display: none;" data-i18n="admin_login_error">Неверный логин или пароль</p>
+                <button id="submitAdminLoginBtn" class="btn btn-primary" style="width: 100%; margin-top: 8px;" data-i18n="admin_login_submit">Войти</button>
             </div>
         </div>
     </div>
@@ -601,21 +601,21 @@
     <main class="container" style="padding-top: 80px;">
         <!-- Welcome Screen -->
         <section id="welcomeScreen" class="screen welcome-screen active">
-            <h1 class="display-large">Туризм России 2026</h1>
-            <p class="display-medium" style="color: var(--text-muted);">Экспертный опрос для руководителей и специалистов отрасли</p>
+            <h1 class="display-large" data-i18n="welcome_title">Туризм России 2026</h1>
+            <p class="display-medium" style="color: var(--text-muted);" data-i18n="welcome_subtitle">Экспертный опрос для руководителей и специалистов отрасли</p>
             
             <div class="chips-row">
-                <span class="chip">⏱ 7–10 минут</span>
-                <span class="chip">🔒 Анонимно</span>
-                <span class="chip">📊 Получите отчёт</span>
+                <span class="chip" data-i18n="chip1">⏱ 7–10 минут</span>
+                <span class="chip" data-i18n="chip2">🔒 Анонимно</span>
+                <span class="chip" data-i18n="chip3">📊 Получите отчёт</span>
             </div>
 
-            <p class="intro-text">
+            <p class="intro-text" data-i18n="intro_text">
                 Исследование посвящено анализу ландшафта российского туризма в 2026 году: тренды въездного, внутреннего и выездного направлений.
             </p>
 
-            <button id="startBtn" class="btn btn-primary btn-large">Начать опрос &rarr;</button>
-            <p class="text-tiny" style="color: var(--text-muted);">Участники получат сводный аналитический отчёт</p>
+            <button id="startBtn" class="btn btn-primary btn-large" data-i18n="start_btn">Начать опрос &rarr;</button>
+            <p class="text-tiny" style="color: var(--text-muted);" data-i18n="report_text">Участники получат сводный аналитический отчёт</p>
         </section>
 
         <!-- User Info Screen -->
