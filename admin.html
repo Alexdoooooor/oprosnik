@@ -12,10 +12,10 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            /* Design Tokens - Dark Mode (Default) */
-            --bg: #171614;
-            --surface: #1f1e1c;
-            --surface-hover: #2a2926;
+            /* Design Tokens - Dark Mode (Default) - Slightly lighter */
+            --bg: #1C1B19;
+            --surface: #242321;
+            --surface-hover: #2D2C2A;
             --text: #F7F6F2;
             --text-muted: #a1a1aa;
             --accent: #01696F;
@@ -24,13 +24,14 @@
             --shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.4), 0 2px 8px -1px rgba(0, 0, 0, 0.2);
             --font-display: 'Instrument Serif', serif;
             --font-body: 'Onest', sans-serif;
-            --transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         [data-theme="light"] {
-            --bg: #F7F6F2;
-            --surface: #ffffff;
-            --surface-hover: #f9f9f7;
+            /* Design Tokens - Light Mode - Slightly more subdued */
+            --bg: #F0EFEA;
+            --surface: #F7F6F2;
+            --surface-hover: #EBEAE5;
             --text: #171614;
             --text-muted: #71717a;
             --accent: #01696F;
@@ -62,15 +63,15 @@
             line-height: 1.1;
         }
 
-        .display-medium { font-size: clamp(1.75rem, 5vw, 2.5rem); }
-        .text-body { font-size: clamp(0.875rem, 2vw + 0.5rem, 1.125rem); }
-        .text-small { font-size: clamp(0.75rem, 1.5vw + 0.4rem, 0.875rem); }
+        .display-medium { font-size: clamp(1.6rem, 5vw, 2.25rem); letter-spacing: -0.01em; }
+        .text-body { font-size: clamp(0.9rem, 1.8vw + 0.4rem, 1.05rem); }
+        .text-small { font-size: clamp(0.8rem, 1.2vw + 0.4rem, 0.9rem); }
 
         .container {
             max-width: 1200px;
             width: 100%;
             margin: 0 auto;
-            padding: clamp(16px, 4vw, 24px);
+            padding: clamp(20px, 5vw, 32px);
             flex: 1;
         }
 
@@ -145,9 +146,10 @@
             margin-top: 32px;
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow-x: auto;
+            border-radius: 16px;
+            overflow: hidden;
             box-shadow: var(--shadow);
+            overflow-x: auto;
         }
 
         table {
@@ -157,7 +159,7 @@
         }
 
         th, td {
-            padding: 16px;
+            padding: 16px 24px;
             border-bottom: 1px solid var(--border);
             white-space: nowrap;
         }
@@ -165,11 +167,18 @@
         th {
             font-weight: 600;
             color: var(--text-muted);
-            font-size: 0.875rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             background: var(--surface-hover);
             position: sticky;
             top: 0;
             z-index: 10;
+        }
+
+        td {
+            font-size: 0.9375rem;
+            transition: background-color var(--transition);
         }
 
         tr:last-child td {
@@ -351,9 +360,28 @@
     </div>
 
     <script>
-        // Check Admin Login
-        if (localStorage.getItem('admin_logged_in') !== 'true') {
-            window.location.href = './index.html';
+        // Check Admin Login with 15-minute session persistence
+        function checkAdminSession() {
+            const isLoggedIn = localStorage.getItem('admin_logged_in') === 'true';
+            const expiry = localStorage.getItem('admin_session_expiry');
+            const now = new Date().getTime();
+
+            if (!isLoggedIn || !expiry || now > parseInt(expiry)) {
+                localStorage.removeItem('admin_logged_in');
+                localStorage.removeItem('admin_session_expiry');
+                window.location.href = './index.html#admin';
+                return false;
+            }
+            
+            // Extend session on activity
+            const newExpiry = now + (15 * 60 * 1000);
+            localStorage.setItem('admin_session_expiry', newExpiry.toString());
+            return true;
+        }
+
+        if (!checkAdminSession()) {
+            // Stop execution if not logged in
+            throw new Error('Unauthorized');
         }
 
         // Theme Management

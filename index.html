@@ -12,10 +12,10 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            /* Design Tokens - Dark Mode (Default) */
-            --bg: #171614;
-            --surface: #1f1e1c;
-            --surface-hover: #2a2926;
+            /* Design Tokens - Dark Mode (Default) - Slightly lighter */
+            --bg: #1C1B19;
+            --surface: #242321;
+            --surface-hover: #2D2C2A;
             --text: #F7F6F2;
             --text-muted: #a1a1aa;
             --accent: #01696F;
@@ -24,13 +24,14 @@
             --shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.4), 0 2px 8px -1px rgba(0, 0, 0, 0.2);
             --font-display: 'Instrument Serif', serif;
             --font-body: 'Onest', sans-serif;
-            --transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         [data-theme="light"] {
-            --bg: #F7F6F2;
-            --surface: #ffffff;
-            --surface-hover: #f9f9f7;
+            /* Design Tokens - Light Mode - Slightly more subdued */
+            --bg: #F0EFEA;
+            --surface: #F7F6F2;
+            --surface-hover: #EBEAE5;
             --text: #171614;
             --text-muted: #71717a;
             --accent: #01696F;
@@ -65,18 +66,18 @@
             line-height: 1.1;
         }
 
-        .display-large { font-size: clamp(2.5rem, 8vw, 4rem); }
-        .display-medium { font-size: clamp(1.75rem, 5vw, 2.5rem); }
-        .text-body { font-size: clamp(0.875rem, 2vw + 0.5rem, 1.125rem); }
-        .text-small { font-size: clamp(0.75rem, 1.5vw + 0.4rem, 0.875rem); }
-        .text-tiny { font-size: clamp(0.65rem, 1vw + 0.4rem, 0.75rem); }
+        .display-large { font-size: clamp(2.25rem, 7vw, 3.75rem); letter-spacing: -0.02em; }
+        .display-medium { font-size: clamp(1.6rem, 5vw, 2.25rem); letter-spacing: -0.01em; }
+        .text-body { font-size: clamp(0.9rem, 1.8vw + 0.4rem, 1.05rem); }
+        .text-small { font-size: clamp(0.8rem, 1.2vw + 0.4rem, 0.9rem); }
+        .text-tiny { font-size: clamp(0.7rem, 0.8vw + 0.4rem, 0.8rem); }
 
         /* Layout */
         .container {
-            max-width: 680px;
+            max-width: 720px;
             width: 100%;
             margin: 0 auto;
-            padding: clamp(16px, 4vw, 24px);
+            padding: clamp(20px, 5vw, 32px);
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -85,7 +86,7 @@
 
         @media (min-width: 768px) {
             .container {
-                padding: 48px 24px;
+                padding: clamp(60px, 8vh, 100px) 32px;
             }
         }
 
@@ -165,8 +166,8 @@
             text-align: center;
             justify-content: center;
             align-items: center;
-            gap: 32px;
-            min-height: 80vh;
+            gap: clamp(24px, 5vh, 48px);
+            min-height: 70vh;
         }
 
         .chips-row {
@@ -244,26 +245,28 @@
         .option-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px 20px;
+            border-radius: 14px;
+            padding: clamp(14px, 3vw, 18px) clamp(16px, 4vw, 24px);
             cursor: pointer;
             transition: all var(--transition);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            min-height: 56px;
+            min-height: 64px;
             position: relative;
             box-shadow: var(--shadow);
         }
 
         .option-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             background: var(--surface-hover);
+            border-color: var(--accent-soft);
         }
 
         .option-card.selected {
-            border-left: 4px solid var(--accent);
+            border-left: 5px solid var(--accent);
             background: var(--accent-soft);
+            border-color: var(--accent);
         }
 
         .option-card .check-icon {
@@ -989,12 +992,25 @@
             const password = adminPasswordInput.value.trim();
             
             if (username === 'admin' && password === '0911') {
+                const expiryTime = new Date().getTime() + (15 * 60 * 1000); // 15 minutes from now
                 localStorage.setItem('admin_logged_in', 'true');
+                localStorage.setItem('admin_session_expiry', expiryTime.toString());
                 window.location.href = './admin.html';
             } else {
                 adminLoginError.style.display = 'block';
             }
         });
+
+        // Hash Handling for Admin Modal
+        function checkHash() {
+            if (window.location.hash === '#admin') {
+                adminLoginModal.classList.add('active');
+                adminUsernameInput.focus();
+            }
+        }
+
+        window.addEventListener('hashchange', checkHash);
+        window.addEventListener('load', checkHash);
 
         adminPasswordInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
