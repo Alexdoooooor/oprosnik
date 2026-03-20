@@ -145,6 +145,37 @@
             margin-top: clamp(24px, 4vw, 32px);
         }
 
+        .summary-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .summary-card .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .summary-card .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1.2;
+        }
+
+        .summary-card .sub-value {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
         .chart-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -213,25 +244,8 @@
             color: var(--text-muted);
             font-size: clamp(0.75rem, 1.5vw, 0.875rem);
         }
-
-        /* Admin Link */
-        .admin-link {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 8px 16px;
-            border-radius: 24px;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            opacity: 0.5;
-            transition: opacity var(--transition);
-        }
-
-        .admin-link:hover {
-            opacity: 1;
+        @media (max-width: 600px) {
+            .hide-mobile { display: none; }
         }
     </style>
 </head>
@@ -248,6 +262,9 @@
                 <i data-lucide="users" size="14"></i>
                 <span>Участников: <span id="totalResponsesHeader">0</span></span>
             </div>
+            <a href="./index.html#admin" class="btn btn-ghost" title="Вход для администратора">
+                <i data-lucide="log-in" size="18"></i> <span class="hide-mobile">Войти</span>
+            </a>
             <button id="themeToggle" class="theme-toggle" aria-label="Переключить тему">
                 <i data-lucide="moon" id="themeIcon"></i>
             </button>
@@ -259,12 +276,41 @@
             Здесь представлены агрегированные и анонимные результаты опроса «Туризм России 2026». Данные обновляются в реальном времени с каждым новым участником.
         </p>
 
+        <div id="summarySection" class="summary-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 32px;">
+            <!-- Summary cards will be injected here -->
+        </div>
+
+        <div id="summaryCharts" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 32px;">
+            <div class="chart-card" id="sentimentChartCard">
+                <div class="chart-title">Общий климат отрасли 2026</div>
+                <div class="chart-container">
+                    <canvas id="sentimentChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card" id="rolesChartCard">
+                <div class="chart-title">Состав участников</div>
+                <div class="chart-container">
+                    <canvas id="rolesChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card" id="digitalChartCard">
+                <div class="chart-title">Цифровые инструменты</div>
+                <div class="chart-container">
+                    <canvas id="digitalChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card" id="bookingChartCard">
+                <div class="chart-title">Каналы бронирования</div>
+                <div class="chart-container">
+                    <canvas id="bookingChart"></canvas>
+                </div>
+            </div>
+        </div>
+
         <div class="dashboard-grid" id="chartsContainer">
             <!-- Charts will be injected here -->
         </div>
     </main>
-
-    <a href="./admin.html" class="admin-link">Вход для администратора</a>
 
     <script>
         // Theme Management
@@ -352,18 +398,58 @@
         function renderCharts() {
             const responses = loadData();
             const container = document.getElementById('chartsContainer');
+            const summaryContainer = document.getElementById('summarySection');
             
             // Clear existing charts if re-rendering for theme change
             if (Object.keys(chartInstances).length > 0) {
                 Object.values(chartInstances).forEach(chart => chart.destroy());
                 chartInstances = {};
                 container.innerHTML = '';
+                summaryContainer.innerHTML = '';
             }
 
             if (responses.length === 0) {
                 container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 48px;">Пока нет данных для отображения. Будьте первым!</p>';
+                summaryContainer.style.display = 'none';
+                document.getElementById('summaryCharts').style.display = 'none';
                 return;
             }
+
+            summaryContainer.style.display = 'grid';
+            document.getElementById('summaryCharts').style.display = 'grid';
+
+            // Calculate Summary Data
+            const calculateTopOption = (questionId) => {
+                const counts = {};
+                responses.forEach(r => {
+                    if (r.answers[questionId] && r.answers[questionId].options) {
+                        r.answers[questionId].options.forEach(opt => {
+                            counts[opt] = (counts[opt] || 0) + 1;
+                        });
+                    }
+                });
+                const topKey = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b, null);
+                return topKey ? { text: optionsMap[questionId][topKey], count: counts[topKey] } : null;
+            };
+
+            const topBarrier = calculateTopOption(19);
+            const topRegion = calculateTopOption(12);
+            const topTrend = calculateTopOption(10);
+
+            const createSummaryCard = (label, value, subValue) => {
+                const card = document.createElement('div');
+                card.className = 'summary-card';
+                card.innerHTML = `
+                    <div class="label">${label}</div>
+                    <div class="value">${value}</div>
+                    <div class="sub-value">${subValue}</div>
+                `;
+                return card;
+            };
+
+            if (topBarrier) summaryContainer.appendChild(createSummaryCard('Главный барьер', topBarrier.text, `${Math.round((topBarrier.count / responses.length) * 100)}% голосов`));
+            if (topRegion) summaryContainer.appendChild(createSummaryCard('Регион-лидер 2026', topRegion.text, `${Math.round((topRegion.count / responses.length) * 100)}% голосов`));
+            if (topTrend) summaryContainer.appendChild(createSummaryCard('Главный тренд', topTrend.text, `${Math.round((topTrend.count / responses.length) * 100)}% голосов`));
 
             const colors = [
                 '#01696F', // accent
@@ -374,57 +460,97 @@
                 '#8E9299'  // gray
             ];
 
-            questionsData.forEach(qData => {
-                // Aggregate data for this question
+            // Helper to get chart data
+            const getChartData = (qId) => {
                 const counts = {};
-                Object.keys(optionsMap[qData.id]).forEach(k => counts[k] = 0);
-
+                Object.keys(optionsMap[qId]).forEach(k => counts[k] = 0);
                 responses.forEach(r => {
-                    if (r.answers[qData.id] && r.answers[qData.id].options) {
-                        r.answers[qData.id].options.forEach(opt => {
-                            if (counts[opt] !== undefined) {
-                                counts[opt]++;
-                            }
+                    if (r.answers[qId] && r.answers[qId].options) {
+                        r.answers[qId].options.forEach(opt => {
+                            if (counts[opt] !== undefined) counts[opt]++;
                         });
                     }
                 });
-
-                // Filter out zero counts for cleaner charts
                 const labels = [];
                 const data = [];
                 const bgColors = [];
-
                 let colorIndex = 0;
                 Object.keys(counts).forEach(key => {
                     if (counts[key] > 0) {
-                        labels.push(optionsMap[qData.id][key]);
+                        labels.push(optionsMap[qId][key]);
                         data.push(counts[key]);
                         bgColors.push(colors[colorIndex % colors.length]);
                         colorIndex++;
                     }
                 });
+                return { labels, data, bgColors };
+            };
 
-                if (data.length === 0) return; // Skip if no data
+            // Render Summary Charts
+            const summaryChartsConfig = [
+                { id: 18, canvasId: 'sentimentChart', type: 'pie' },
+                { id: 1, canvasId: 'rolesChart', type: 'bar' },
+                { id: 16, canvasId: 'digitalChart', type: 'doughnut' },
+                { id: 17, canvasId: 'bookingChart', type: 'bar' }
+            ];
+
+            summaryChartsConfig.forEach(config => {
+                const { labels, data, bgColors } = getChartData(config.id);
+                if (data.length === 0) {
+                    document.getElementById(config.canvasId + 'Card').style.display = 'none';
+                    return;
+                }
+                document.getElementById(config.canvasId + 'Card').style.display = 'flex';
+                const ctx = document.getElementById(config.canvasId).getContext('2d');
+                chartInstances[config.canvasId] = new Chart(ctx, {
+                    type: config.type,
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: config.type === 'bar' ? colors[0] : bgColors,
+                            borderWidth: 1,
+                            borderRadius: config.type === 'bar' ? 4 : 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: config.type !== 'bar',
+                                position: window.innerWidth < 600 ? 'bottom' : 'right',
+                                labels: { boxWidth: 12, font: { size: 11 } }
+                            }
+                        },
+                        scales: config.type === 'bar' ? {
+                            y: { beginAtZero: true, ticks: { stepSize: 1 } },
+                            x: { display: false }
+                        } : undefined
+                    }
+                });
+            });
+
+            // Render Detailed Charts
+            const summaryIds = summaryChartsConfig.map(c => c.id);
+            questionsData.filter(q => !summaryIds.includes(q.id)).forEach(qData => {
+                const { labels, data, bgColors } = getChartData(qData.id);
+                if (data.length === 0) return;
 
                 // Create DOM elements
                 const card = document.createElement('div');
                 card.className = 'chart-card';
-                
                 const title = document.createElement('div');
                 title.className = 'chart-title';
                 title.textContent = qData.text;
-                
                 const chartWrapper = document.createElement('div');
                 chartWrapper.className = 'chart-container';
-                
                 const canvas = document.createElement('canvas');
                 chartWrapper.appendChild(canvas);
-                
                 card.appendChild(title);
                 card.appendChild(chartWrapper);
                 container.appendChild(card);
 
-                // Initialize Chart
                 const ctx = canvas.getContext('2d');
                 chartInstances[qData.id] = new Chart(ctx, {
                     type: qData.type,
@@ -444,15 +570,12 @@
                             legend: {
                                 display: qData.type !== 'bar',
                                 position: window.innerWidth < 600 ? 'bottom' : 'right',
-                                labels: {
-                                    boxWidth: 12,
-                                    font: { size: 11 }
-                                }
+                                labels: { boxWidth: 12, font: { size: 11 } }
                             }
                         },
                         scales: qData.type === 'bar' ? {
                             y: { beginAtZero: true, ticks: { stepSize: 1 } },
-                            x: { display: false } // Hide x labels for bar to save space, rely on tooltip
+                            x: { display: false }
                         } : undefined
                     }
                 });

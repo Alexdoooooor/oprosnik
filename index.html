@@ -536,6 +536,9 @@
                 scroll-behavior: auto !important;
             }
         }
+        @media (max-width: 600px) {
+            .hide-mobile { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -543,13 +546,13 @@
         <div id="progressBar" class="progress-bar"></div>
     </div>
 
-    <header style="display: flex; justify-content: space-between; width: 100%; align-items: center; padding: 16px 24px; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--surface); border-bottom: 1px solid var(--border);">
+    <header style="display: flex; justify-content: space-between; width: 100%; align-items: center; padding: 16px 24px; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--surface); border-bottom: 1px solid var(--border); backdrop-filter: blur(8px);">
         <button id="globalBackBtn" class="btn btn-ghost" style="visibility: hidden;">
             <i data-lucide="arrow-left" size="18"></i> Назад
         </button>
-        <div style="display: flex; gap: 12px; align-items: center;">
-            <button id="adminLoginBtn" class="btn btn-ghost">
-                <i data-lucide="log-in" size="18"></i> Войти
+        <div style="display: flex; gap: 12px; align-items: center; margin-left: auto;">
+            <button id="adminLoginBtn" class="btn btn-ghost" title="Вход для администратора">
+                <i data-lucide="log-in" size="18"></i> <span class="hide-mobile">Войти</span>
             </button>
             <a href="./dashboard.html" class="btn btn-ghost" style="padding: 8px;" title="Результаты">
                 <i data-lucide="bar-chart-2" size="18"></i>
