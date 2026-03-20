@@ -294,7 +294,7 @@
 <body>
     <header>
         <div style="display: flex; align-items: center; gap: 16px;">
-            <a href="/" class="btn btn-ghost" style="padding: 8px;">
+            <a href="./index.html" class="btn btn-ghost" style="padding: 8px;">
                 <i data-lucide="arrow-left" size="18"></i>
             </a>
             <h1 class="display-medium" style="margin: 0;">Админ-панель</h1>
@@ -303,7 +303,7 @@
             <button id="downloadCsvBtn" class="btn btn-primary">
                 <i data-lucide="download" size="16"></i> Экспорт CSV
             </button>
-            <a href="/dashboard.html" class="btn btn-ghost">
+            <a href="./dashboard.html" class="btn btn-ghost">
                 <i data-lucide="bar-chart-2" size="16"></i> Дашборд
             </a>
             <button id="logoutBtn" class="btn btn-ghost" style="color: #ef4444;">
@@ -353,7 +353,7 @@
     <script>
         // Check Admin Login
         if (localStorage.getItem('admin_logged_in') !== 'true') {
-            window.location.href = '/';
+            window.location.href = './index.html';
         }
 
         // Theme Management
@@ -563,7 +563,7 @@
         // Logout
         document.getElementById('logoutBtn').addEventListener('click', () => {
             localStorage.removeItem('admin_logged_in');
-            window.location.href = '/';
+            window.location.href = './index.html';
         });
     </script>
 </body>

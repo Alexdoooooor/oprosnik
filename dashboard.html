@@ -238,12 +238,16 @@
 <body>
     <header>
         <div style="display: flex; align-items: center; gap: 16px;">
-            <a href="/" class="btn btn-ghost" style="padding: 8px;">
+            <a href="./index.html" class="btn btn-ghost" style="padding: 8px;">
                 <i data-lucide="arrow-left" size="18"></i>
             </a>
             <h1 class="display-medium" style="margin: 0;">Общие результаты</h1>
         </div>
         <div class="header-actions">
+            <div id="headerStats" style="background: var(--accent-soft); color: var(--accent); padding: 4px 12px; border-radius: 16px; font-weight: 600; font-size: 0.875rem; display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="users" size="14"></i>
+                <span>Участников: <span id="totalResponsesHeader">0</span></span>
+            </div>
             <button id="themeToggle" class="theme-toggle" aria-label="Переключить тему">
                 <i data-lucide="moon" id="themeIcon"></i>
             </button>
@@ -251,31 +255,16 @@
     </header>
 
     <main class="container">
-        <p style="color: var(--text-muted); max-width: 600px;">
+        <p style="color: var(--text-muted); max-width: 600px; margin-bottom: 24px;">
             Здесь представлены агрегированные и анонимные результаты опроса «Туризм России 2026». Данные обновляются в реальном времени с каждым новым участником.
         </p>
-
-        <div class="stats-row">
-            <div class="stat-card">
-                <div class="stat-value" id="totalResponses">0</div>
-                <div class="stat-label">Всего участников</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="topRegion">-</div>
-                <div class="stat-label">Главный регион работы</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="topDirection">-</div>
-                <div class="stat-label">Основное направление</div>
-            </div>
-        </div>
 
         <div class="dashboard-grid" id="chartsContainer">
             <!-- Charts will be injected here -->
         </div>
     </main>
 
-    <a href="/admin.html" class="admin-link">Вход для администратора</a>
+    <a href="./admin.html" class="admin-link">Вход для администратора</a>
 
     <script>
         // Theme Management
@@ -354,35 +343,9 @@
         function loadData() {
             const responses = JSON.parse(localStorage.getItem('survey_responses_2026') || '[]');
             
-            // Update Stats
-            document.getElementById('totalResponses').textContent = responses.length;
+            // Update Stats in Header
+            document.getElementById('totalResponsesHeader').textContent = responses.length;
             
-            if (responses.length > 0) {
-                // Calculate Top Region (Q3)
-                const regionCounts = {};
-                responses.forEach(r => {
-                    if (r.answers[3] && r.answers[3].options) {
-                        r.answers[3].options.forEach(opt => {
-                            regionCounts[opt] = (regionCounts[opt] || 0) + 1;
-                        });
-                    }
-                });
-                const topRegionId = Object.keys(regionCounts).sort((a,b) => regionCounts[b] - regionCounts[a])[0];
-                document.getElementById('topRegion').textContent = topRegionId ? optionsMap[3][topRegionId] : '-';
-
-                // Calculate Top Direction (Q2)
-                const dirCounts = {};
-                responses.forEach(r => {
-                    if (r.answers[2] && r.answers[2].options) {
-                        r.answers[2].options.forEach(opt => {
-                            dirCounts[opt] = (dirCounts[opt] || 0) + 1;
-                        });
-                    }
-                });
-                const topDirId = Object.keys(dirCounts).sort((a,b) => dirCounts[b] - dirCounts[a])[0];
-                document.getElementById('topDirection').textContent = topDirId ? optionsMap[2][topDirId] : '-';
-            }
-
             return responses;
         }
 

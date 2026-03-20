@@ -551,6 +551,9 @@
             <button id="adminLoginBtn" class="btn btn-ghost">
                 <i data-lucide="log-in" size="18"></i> Войти
             </button>
+            <a href="./dashboard.html" class="btn btn-ghost" style="padding: 8px;" title="Результаты">
+                <i data-lucide="bar-chart-2" size="18"></i>
+            </a>
             <button id="themeToggle" class="theme-toggle" aria-label="Переключить тему">
                 <i data-lucide="moon" id="themeIcon"></i>
             </button>
@@ -676,9 +679,9 @@
             </p>
 
             <div class="actions-row">
-                <button id="viewResultsBtn" class="btn btn-primary">
+                <a href="./dashboard.html" id="viewResultsBtn" class="btn btn-primary">
                     <i data-lucide="bar-chart-2" size="18"></i> Посмотреть общие результаты
-                </button>
+                </a>
             </div>
         </section>
     </main>
@@ -982,9 +985,9 @@
             const username = adminUsernameInput.value.trim();
             const password = adminPasswordInput.value.trim();
             
-            if (username === 'amin' && password === '0911') {
+            if (username === 'admin' && password === 'tourism2026') {
                 localStorage.setItem('admin_logged_in', 'true');
-                window.location.href = '/admin.html';
+                window.location.href = './admin.html';
             } else {
                 adminLoginError.style.display = 'block';
             }
@@ -1216,7 +1219,7 @@
 
         function viewResults() {
             // Redirect to the dashboard page
-            window.location.href = '/dashboard.html';
+            window.location.href = './dashboard.html';
         }
 
         // Event Listeners
