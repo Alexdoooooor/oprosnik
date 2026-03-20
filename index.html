@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Onest:wght@100..900&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="/i18n.js"></script>
     <style>
         :root {
             /* Design Tokens - Dark Mode (Default) - Slightly lighter */
@@ -554,8 +555,17 @@
             <i data-lucide="arrow-left" size="18"></i> Назад
         </button>
         <div style="display: flex; gap: 12px; align-items: center; margin-left: auto;">
+            <select id="langSelector" onchange="setLanguage(this.value)" style="background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px;">
+                <option value="ru">RU</option>
+                <option value="en">EN</option>
+                <option value="ar">AR</option>
+                <option value="hi">HI</option>
+                <option value="zh">ZH</option>
+                <option value="es">ES</option>
+                <option value="de">DE</option>
+            </select>
             <button id="adminLoginBtn" class="btn btn-ghost" title="Вход для администратора">
-                <i data-lucide="log-in" size="18"></i> <span class="hide-mobile">Войти</span>
+                <i data-lucide="log-in" size="18"></i> <span class="hide-mobile" data-i18n="login">Войти</span>
             </button>
             <a href="./dashboard.html" class="btn btn-ghost" style="padding: 8px;" title="Результаты">
                 <i data-lucide="bar-chart-2" size="18"></i>
