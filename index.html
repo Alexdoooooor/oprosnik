@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Туризм России 2026 — Экспертный опрос</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Onest:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            /* Design Tokens - Dark Mode (Default) */
+            --bg: #171614;
+            --surface: #1f1e1c;
+            --surface-hover: #2a2926;
+            --text: #F7F6F2;
+            --text-muted: #a1a1aa;
+            --accent: #01696F;
+            --accent-soft: rgba(1, 105, 111, 0.1);
+            --border: rgba(255, 255, 255, 0.08);
+            --shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.4), 0 2px 8px -1px rgba(0, 0, 0, 0.2);
+            --font-display: 'Instrument Serif', serif;
+            --font-body: 'Onest', sans-serif;
+            --transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="light"] {
+            --bg: #F7F6F2;
+            --surface: #ffffff;
+            --surface-hover: #f9f9f7;
+            --text: #171614;
+            --text-muted: #71717a;
+            --accent: #01696F;
+            --accent-soft: rgba(1, 105, 111, 0.08);
+            --border: rgba(0, 0, 0, 0.08);
+            --shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.05), 0 2px 8px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 300ms ease, color 300ms ease;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            font-weight: 400;
+            line-height: 1.1;
+        }
+
+        .display-large { font-size: clamp(2.5rem, 8vw, 4rem); }
+        .display-medium { font-size: clamp(1.75rem, 5vw, 2.5rem); }
+        .text-body { font-size: clamp(0.875rem, 2vw + 0.5rem, 1.125rem); }
+        .text-small { font-size: clamp(0.75rem, 1.5vw + 0.4rem, 0.875rem); }
+        .text-tiny { font-size: clamp(0.65rem, 1vw + 0.4rem, 0.75rem); }
+
+        /* Layout */
+        .container {
+            max-width: 680px;
+            width: 100%;
+            margin: 0 auto;
+            padding: clamp(16px, 4vw, 24px);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 48px 24px;
+            }
+        }
+
+        /* Header & Theme Toggle */
+        header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 16px 24px;
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--surface-hover);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--border);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 300ms ease;
+        }
+
+        /* Quiz Components */
+        .screen {
+            display: none;
+            animation: screenEnter 350ms ease-out forwards;
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes screenEnter {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .screen.exit {
+            animation: screenExit 280ms ease-in forwards;
+        }
+
+        @keyframes screenExit {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-8px); }
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+            min-height: 80vh;
+        }
+
+        .chips-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .chip {
+            padding: 6px 16px;
+            border-radius: 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .intro-text {
+            color: var(--text-muted);
+            max-width: 540px;
+            margin: 0 auto;
+        }
+
+        /* Question UI */
+        .section-chips {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scrollbar-width: none;
+        }
+
+        .section-chips::-webkit-scrollbar {
+            display: none;
+        }
+
+        .section-indicator {
+            padding: 4px 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            border-radius: 24px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all var(--transition);
+        }
+
+        .section-indicator.active {
+            background: var(--accent-soft);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .question-meta {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .question-text {
+            margin-bottom: 32px;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            list-style: none;
+        }
+
+        .option-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 56px;
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+
+        .option-card:hover {
+            transform: translateY(-2px);
+            background: var(--surface-hover);
+        }
+
+        .option-card.selected {
+            border-left: 4px solid var(--accent);
+            background: var(--accent-soft);
+        }
+
+        .option-card .check-icon {
+            color: var(--accent);
+            opacity: 1;
+            color: var(--text-muted);
+            transition: all var(--transition);
+        }
+
+        .option-card.selected .check-icon {
+            color: var(--accent);
+        }
+
+        /* Text Input */
+        .text-input-container {
+            margin-top: 16px;
+            display: none;
+            animation: fadeIn 300ms ease-out;
+        }
+
+        .text-input-container.visible {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        textarea {
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+            outline: none;
+            transition: border-color var(--transition);
+        }
+
+        textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px var(--accent-soft);
+        }
+
+        .char-counter {
+            text-align: right;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Navigation */
+        .nav-footer {
+            margin-top: 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .nav-footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: var(--bg);
+                padding: 16px 24px;
+                border-top: 1px solid var(--border);
+                margin-top: 0;
+                z-index: 90;
+            }
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all var(--transition);
+            border: none;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:disabled {
+            background: var(--border);
+            color: var(--text-muted);
+            cursor: not-allowed;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-muted);
+        }
+
+        .btn-ghost:hover {
+            color: var(--text);
+            background: var(--surface-hover);
+        }
+
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 1rem;
+            border-radius: 12px;
+        }
+
+        /* Completion Screen */
+        .completion-screen {
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            min-height: 80vh;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .success-icon circle {
+            stroke-dasharray: 251;
+            stroke-dashoffset: 251;
+            animation: drawCircle 1s ease-out forwards;
+        }
+
+        .success-icon polyline {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: drawCheck 0.5s 0.8s ease-out forwards;
+        }
+
+        @keyframes drawCircle { to { stroke-dashoffset: 0; } }
+        @keyframes drawCheck { to { stroke-dashoffset: 0; } }
+
+        .contact-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            width: 100%;
+            max-width: 400px;
+            margin-top: 24px;
+            text-align: left;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .contact-item:last-child { margin-bottom: 0; }
+        .contact-item:hover { color: var(--accent); }
+
+        .actions-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        @media (max-width: 480px) {
+            .actions-row { flex-direction: column; }
+        }
+
+        /* Focus Styles */
+        button:focus-visible, 
+        .option-card:focus-visible,
+        textarea:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 200ms ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            padding: 32px;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 200ms ease;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+        }
+
+        .modal-close:hover {
+            background: var(--surface-hover);
+            color: var(--text);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div id="progressBar" class="progress-bar"></div>
+    </div>
+
+    <header style="display: flex; justify-content: space-between; width: 100%; align-items: center; padding: 16px 24px; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--surface); border-bottom: 1px solid var(--border);">
+        <button id="globalBackBtn" class="btn btn-ghost" style="visibility: hidden;">
+            <i data-lucide="arrow-left" size="18"></i> Назад
+        </button>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <button id="adminLoginBtn" class="btn btn-ghost">
+                <i data-lucide="log-in" size="18"></i> Войти
+            </button>
+            <button id="themeToggle" class="theme-toggle" aria-label="Переключить тему">
+                <i data-lucide="moon" id="themeIcon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Admin Login Modal -->
+    <div class="modal-overlay" id="adminLoginModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeAdminModalBtn">
+                <i data-lucide="x" size="20"></i>
+            </button>
+            <h2 class="display-medium" style="margin-bottom: 24px;">Вход для администратора</h2>
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div>
+                    <label for="adminUsername" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Логин</label>
+                    <input type="text" id="adminUsername" placeholder="Введите логин" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
+                </div>
+                <div>
+                    <label for="adminPassword" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Пароль</label>
+                    <input type="password" id="adminPassword" placeholder="Введите пароль" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
+                </div>
+                <p id="adminLoginError" style="color: #ef4444; font-size: 0.875rem; display: none;">Неверный логин или пароль</p>
+                <button id="submitAdminLoginBtn" class="btn btn-primary" style="width: 100%; margin-top: 8px;">Войти</button>
+            </div>
+        </div>
+    </div>
+
+    <main class="container" style="padding-top: 80px;">
+        <!-- Welcome Screen -->
+        <section id="welcomeScreen" class="screen welcome-screen active">
+            <h1 class="display-large">Туризм России 2026</h1>
+            <p class="display-medium" style="color: var(--text-muted);">Экспертный опрос для руководителей и специалистов отрасли</p>
+            
+            <div class="chips-row">
+                <span class="chip">⏱ 7–10 минут</span>
+                <span class="chip">🔒 Анонимно</span>
+                <span class="chip">📊 Получите отчёт</span>
+            </div>
+
+            <p class="intro-text">
+                Исследование посвящено анализу ландшафта российского туризма в 2026 году: тренды въездного, внутреннего и выездного направлений.
+            </p>
+
+            <button id="startBtn" class="btn btn-primary btn-large">Начать опрос &rarr;</button>
+            <p class="text-tiny" style="color: var(--text-muted);">Участники получат сводный аналитический отчёт</p>
+        </section>
+
+        <!-- User Info Screen -->
+        <section id="userInfoScreen" class="screen">
+            <h2 class="display-medium" style="margin-bottom: 24px; text-align: center;">Давайте познакомимся</h2>
+            <p style="color: var(--text-muted); text-align: center; margin-bottom: 32px;">Пожалуйста, заполните небольшую анкету перед началом опроса.</p>
+            
+            <div class="contact-card" style="margin: 0 auto; width: 100%; max-width: 500px;">
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <div>
+                        <label for="userName" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Ваше имя *</label>
+                        <input type="text" id="userName" required placeholder="Иван Иванов" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
+                    </div>
+                    <div>
+                        <label for="userCompany" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Компания *</label>
+                        <input type="text" id="userCompany" required placeholder="Название компании" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
+                    </div>
+                    <div>
+                        <label for="userPosition" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Должность *</label>
+                        <input type="text" id="userPosition" required placeholder="Ваша должность" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
+                    </div>
+                    <div>
+                        <label for="userEmail" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Email *</label>
+                        <input type="email" id="userEmail" required placeholder="example@mail.ru" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-footer" style="justify-content: center; margin-top: 32px;">
+                <button id="submitUserInfoBtn" class="btn btn-primary btn-large" disabled>
+                    Перейти к опросу <i data-lucide="arrow-right" size="18"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Quiz Screen -->
+        <section id="quizScreen" class="screen">
+            <div id="sectionChips" class="section-chips">
+                <!-- 6 chips injected by JS -->
+            </div>
+            <div id="questionMeta" class="question-meta">Вопрос 1 из 20</div>
+            
+            <fieldset style="border: none;">
+                <legend id="questionText" class="display-medium question-text">Текст вопроса</legend>
+                <p class="text-tiny" style="color: var(--text-muted); margin-top: -24px; margin-bottom: 24px;">Выберите один или несколько вариантов ответа</p>
+                
+                <div id="optionsList" class="options-list" role="group">
+                    <!-- Options injected by JS -->
+                </div>
+
+                <div id="textInputContainer" class="text-input-container">
+                    <label for="openInput" id="inputLabel" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Ваш ответ</label>
+                    <textarea id="openInput" maxlength="500" placeholder="Введите здесь..."></textarea>
+                    <div class="char-counter"><span id="charCount">0</span>/500</div>
+                </div>
+            </fieldset>
+
+            <div class="nav-footer" style="justify-content: flex-end;">
+                <button id="nextBtn" class="btn btn-primary" disabled>
+                    Далее <i data-lucide="arrow-right" size="18"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Completion Screen -->
+        <section id="completionScreen" class="screen completion-screen">
+            <svg class="success-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="50" cy="50" r="40"></circle>
+                <polyline points="30 50 45 65 70 35"></polyline>
+            </svg>
+            
+            <h2 class="display-medium">Спасибо за участие!</h2>
+            <p style="color: var(--text-muted);">Ваши ответы записаны</p>
+            
+            <p class="intro-text">
+                Вы получите сводный аналитический отчёт по результатам исследования.
+            </p>
+
+            <div class="actions-row">
+                <button id="viewResultsBtn" class="btn btn-primary">
+                    <i data-lucide="bar-chart-2" size="18"></i> Посмотреть общие результаты
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const sections = [
+            "Раздел 1 — Профиль участника",
+            "Раздел 2 — Въездной туризм (Inbound)",
+            "Раздел 3 — Внутренний туризм (Domestic)",
+            "Раздел 4 — Выездной туризм (Outbound)",
+            "Раздел 5 — Технологии и каналы продаж",
+            "Раздел 6 — Прогнозы и ожидания"
+        ];
+
+        const questions = [
+            // SECTION 1
+            {
+                id: 1, section: 0, text: "Ваша роль в туристической отрасли",
+                options: [
+                    { id: "A", text: "Руководитель / владелец туроператора" },
+                    { id: "B", text: "Руководитель / владелец турагентства" },
+                    { id: "C", text: "Отельер / управляющий средством размещения" },
+                    { id: "D", text: "Эксперт, аналитик или консультант рынка" },
+                    { id: "E", text: "Представитель региональной / федеральной структуры в туризме" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            {
+                id: 2, section: 0, text: "С какими направлениями вы работаете преимущественно?",
+                options: [
+                    { id: "A", text: "Только внутренний туризм" },
+                    { id: "B", text: "Только выездной туризм" },
+                    { id: "C", text: "Только въездной туризм (иностранцы в Россию)" },
+                    { id: "D", text: "Внутренний + выездной" },
+                    { id: "E", text: "Все направления одновременно" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            {
+                id: 3, section: 0, text: "Ваш основной регион / география работы",
+                options: [
+                    { id: "A", text: "Москва и Московская область" },
+                    { id: "B", text: "Санкт-Петербург и Северо-Запад" },
+                    { id: "C", text: "Краснодарский край / Черноморское побережье" },
+                    { id: "D", text: "Другой российский регион" },
+                    { id: "E", text: "Работаю на нескольких регионах / федеральный уровень" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            // SECTION 2
+            {
+                id: 4, section: 1, text: "Замечаете ли вы рост интереса к России на фоне нестабильности на Ближнем Востоке?",
+                options: [
+                    { id: "A", text: "Да — заметный рост запросов и реальных бронирований" },
+                    { id: "B", text: "Интерес есть, но до реального потока туристов далеко" },
+                    { id: "C", text: "Скорее нет — ситуация на Ближнем Востоке не влияет на Россию" },
+                    { id: "D", text: "Россия пока не воспринимается как альтернативное направление" },
+                    { id: "E", text: "Затрудняюсь ответить / не отслеживаю въездной туризм" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            {
+                id: 5, section: 1, text: "Туристы из каких регионов проявляют наибольший интерес к въезду в Россию?",
+                options: [
+                    { id: "A", text: "Страны Ближнего Востока (ОАЭ, Саудовская Аравия, Иран, Египет)" },
+                    { id: "B", text: "Страны СНГ (Казахстан, Узбекистан, Беларусь, Армения и др.)" },
+                    { id: "C", text: "Китай, Индия, страны Юго-Восточной Азии" },
+                    { id: "D", text: "Страны Африки и Латинской Америки" },
+                    { id: "E", text: "Интереса со стороны иностранных туристов практически нет" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            {
+                id: 6, section: 1, text: "Какие российские направления чаще всего запрашивают иностранные туристы?",
+                options: [
+                    { id: "A", text: "Москва и Санкт-Петербург (классический маршрут)" },
+                    { id: "B", text: "Краснодарский край / Черноморское побережье" },
+                    { id: "C", text: "Сибирь, Байкал, Дальний Восток" },
+                    { id: "D", text: "Казань, Екатеринбург, Золотое кольцо" },
+                    { id: "E", text: "Иностранцы пока не запрашивают конкретные направления" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            {
+                id: 7, section: 1, text: "Что является главным барьером для роста въездного туризма в Россию?",
+                options: [
+                    { id: "A", text: "Визовые ограничения и сложность оформления" },
+                    { id: "B", text: "Сложности с международными платежами и картами" },
+                    { id: "C", text: "Отсутствие прямых рейсов из ключевых стран" },
+                    { id: "D", text: "Негативный медиаобраз России за рубежом" },
+                    { id: "E", text: "Слабая инфраструктура и языковой барьер для иностранцев" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            // SECTION 3
+            {
+                id: 8, section: 2, text: "Каков типичный возраст активного внутреннего туриста в 2025–2026 году?",
+                options: [
+                    { id: "A", text: "18–25 лет (молодёжь, студенты)" },
+                    { id: "B", text: "25–35 лет (молодые профессионалы и пары)" },
+                    { id: "C", text: "35–50 лет (семьи с детьми, средний класс)" },
+                    { id: "D", text: "50+ лет (зрелые путешественники, пенсионеры)" },
+                    { id: "E", text: "Все возрасты в равной степени" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            {
+                id: 9, section: 2, text: "Какой стиль путешествий внутри страны преобладает сейчас?",
+                options: [
+                    { id: "A", text: "Самостоятельные поездки без турагентства" },
+                    { id: "B", text: "Организованные туры и пакетные предложения" },
+                    { id: "C", text: "Комбинированные поездки (частично самостоятельно, частично через агента)" },
+                    { id: "D", text: "Корпоративные и деловые поездки (MICE)" },
+                    { id: "E", text: "Групповые туры для узких аудиторий (молодёжь, seniors, тематические)" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            {
+                id: 10, section: 2, text: "Какой формат внутреннего туризма растёт быстрее всего?",
+                options: [
+                    { id: "A", text: "Экотуризм, глэмпинг и природный отдых" },
+                    { id: "B", text: "Гастрономический и культурный туризм" },
+                    { id: "C", text: "Активный туризм (треккинг, горы, сплавы)" },
+                    { id: "D", text: "Велнес и оздоровительные курорты" },
+                    { id: "E", text: "Короткие городские поездки (уик-энд в другом городе)" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            {
+                id: 11, section: 2, text: "Как изменился средний чек внутреннего туриста за последний год?",
+                options: [
+                    { id: "A", text: "Вырос более чем на 20%" },
+                    { id: "B", text: "Вырос незначительно — в пределах 10–20%" },
+                    { id: "C", text: "Остался примерно на прежнем уровне" },
+                    { id: "D", text: "Снизился — туристы стали экономить" },
+                    { id: "E", text: "Затрудняюсь оценить" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            {
+                id: 12, section: 2, text: "Какие регионы России покажут наибольший туристический рост в 2026 году?",
+                options: [
+                    { id: "A", text: "Краснодарский край и Крым" },
+                    { id: "B", text: "Санкт-Петербург и Ленинградская область" },
+                    { id: "C", text: "Алтай, Байкал, Сибирь" },
+                    { id: "D", text: "Татарстан, Поволжье, Урал" },
+                    { id: "E", text: "Дальний Восток и Арктические маршруты" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            // SECTION 4
+            {
+                id: 13, section: 3, text: "Каков тренд выездного туризма из России в 2026 году?",
+                options: [
+                    { id: "A", text: "Активный рост — россияне едут за рубеж больше, чем раньше" },
+                    { id: "B", text: "Незначительный рост" },
+                    { id: "C", text: "Стагнация — уровень примерно как в 2025 году" },
+                    { id: "D", text: "Снижение — больше переориентации на внутренний туризм" },
+                    { id: "E", text: "Затрудняюсь оценить" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            {
+                id: 14, section: 3, text: "Какие зарубежные направления наиболее популярны у российских туристов сейчас?",
+                options: [
+                    { id: "A", text: "Турция, ОАЭ, Египет" },
+                    { id: "B", text: "Таиланд, Вьетнам, Индонезия, Индия" },
+                    { id: "C", text: "Страны СНГ (Казахстан, Узбекистан, Беларусь, Армения)" },
+                    { id: "D", text: "Китай, Куба, ЮАР, Латинская Америка" },
+                    { id: "E", text: "Европейские направления (через третьи страны)" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            {
+                id: 15, section: 3, text: "Как изменилось поведение российского выездного туриста за последние 2 года?",
+                options: [
+                    { id: "A", text: "Больше самостоятельных поездок, меньше организованных туров" },
+                    { id: "B", text: "Переориентация на «дружественные» страны и СНГ" },
+                    { id: "C", text: "Рост спроса на длительные поездки (2 недели и больше)" },
+                    { id: "D", text: "Снижение среднего бюджета из-за курса и логистики" },
+                    { id: "E", text: "Аудитория сократилась, но оставшиеся тратят значительно больше" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            // SECTION 5
+            {
+                id: 16, section: 4, text: "Какой цифровой инструмент реально влияет на вашу работу прямо сейчас?",
+                options: [
+                    { id: "A", text: "ИИ-ассистенты и чат-боты для общения с клиентами" },
+                    { id: "B", text: "Онлайн-агрегаторы и системы бронирования" },
+                    { id: "C", text: "Системы динамического ценообразования" },
+                    { id: "D", text: "Аналитические платформы и BI-инструменты" },
+                    { id: "E", text: "Цифровые инструменты пока слабо влияют на мою работу" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            {
+                id: 17, section: 4, text: "Как туристы чаще всего находят и бронируют поездки по России?",
+                options: [
+                    { id: "A", text: "Через онлайн-агрегаторы (Островок, Суточно, Яндекс Путешествия)" },
+                    { id: "B", text: "Напрямую на сайтах отелей и операторов" },
+                    { id: "C", text: "Через турагентов лично или по рекомендации" },
+                    { id: "D", text: "Через социальные сети и Telegram-каналы" },
+                    { id: "E", text: "Комбинируют несколько каналов одновременно" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            // SECTION 6
+            {
+                id: 18, section: 5, text: "Как вы оцениваете общий туристический климат в России на 2026 год?",
+                options: [
+                    { id: "A", text: "😊 Очень благоприятный — отрасль активно растёт" },
+                    { id: "B", text: "🙂 Умеренно позитивный — рост есть, но с ограничениями" },
+                    { id: "C", text: "😐 Нейтральный — ситуация стабильная, без резких изменений" },
+                    { id: "D", text: "😟 Сложный — много препятствий для развития" },
+                    { id: "E", text: "😰 Критический — отрасль находится в кризисе" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            },
+            {
+                id: 19, section: 5, text: "Какое главное препятствие тормозит развитие туризма в России в 2026 году?",
+                options: [
+                    { id: "A", text: "Высокие цены на перелёты и транспортную доступность регионов" },
+                    { id: "B", text: "Недостаточное качество сервиса и инфраструктуры" },
+                    { id: "C", text: "Нехватка квалифицированных кадров в отрасли" },
+                    { id: "D", text: "Слабая цифровизация и неудобные сервисы для туристов" },
+                    { id: "E", text: "Недостаточная государственная поддержка и субсидирование" },
+                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let answers = {};
+        let userInfo = {};
+        let sessionId = Math.random().toString(36).substring(2, 15);
+
+        // DOM Elements
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const userInfoScreen = document.getElementById('userInfoScreen');
+        const quizScreen = document.getElementById('quizScreen');
+        const completionScreen = document.getElementById('completionScreen');
+        const progressBar = document.getElementById('progressBar');
+        const sectionChipsContainer = document.getElementById('sectionChips');
+        const questionMeta = document.getElementById('questionMeta');
+        const questionText = document.getElementById('questionText');
+        const optionsList = document.getElementById('optionsList');
+        const textInputContainer = document.getElementById('textInputContainer');
+        const inputLabel = document.getElementById('inputLabel');
+        const openInput = document.getElementById('openInput');
+        const charCount = document.getElementById('charCount');
+        const nextBtn = document.getElementById('nextBtn');
+        const startBtn = document.getElementById('startBtn');
+        const submitUserInfoBtn = document.getElementById('submitUserInfoBtn');
+        const viewResultsBtn = document.getElementById('viewResultsBtn');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        
+        // Global Header Elements
+        const globalBackBtn = document.getElementById('globalBackBtn');
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+        const adminLoginModal = document.getElementById('adminLoginModal');
+        const closeAdminModalBtn = document.getElementById('closeAdminModalBtn');
+        const submitAdminLoginBtn = document.getElementById('submitAdminLoginBtn');
+        const adminUsernameInput = document.getElementById('adminUsername');
+        const adminPasswordInput = document.getElementById('adminPassword');
+        const adminLoginError = document.getElementById('adminLoginError');
+
+        // User Info Inputs
+        const userNameInput = document.getElementById('userName');
+        const userCompanyInput = document.getElementById('userCompany');
+        const userPositionInput = document.getElementById('userPosition');
+        const userEmailInput = document.getElementById('userEmail');
+
+        // Initialization
+        lucide.createIcons();
+        
+        // Theme Management
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            themeIcon.setAttribute('data-lucide', newTheme === 'dark' ? 'moon' : 'sun');
+            lucide.createIcons();
+        }
+
+        themeToggle.addEventListener('click', toggleTheme);
+        
+        // Admin Login Modal Logic
+        adminLoginBtn.addEventListener('click', () => {
+            adminLoginModal.classList.add('active');
+            adminUsernameInput.focus();
+        });
+
+        closeAdminModalBtn.addEventListener('click', () => {
+            adminLoginModal.classList.remove('active');
+            adminLoginError.style.display = 'none';
+        });
+
+        submitAdminLoginBtn.addEventListener('click', () => {
+            const username = adminUsernameInput.value.trim();
+            const password = adminPasswordInput.value.trim();
+            
+            if (username === 'amin' && password === '0911') {
+                localStorage.setItem('admin_logged_in', 'true');
+                window.location.href = '/admin.html';
+            } else {
+                adminLoginError.style.display = 'block';
+            }
+        });
+
+        adminPasswordInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                submitAdminLoginBtn.click();
+            }
+        });
+
+        // Global Back Button Logic
+        globalBackBtn.addEventListener('click', () => {
+            if (userInfoScreen.classList.contains('active')) {
+                userInfoScreen.classList.add('exit');
+                setTimeout(() => {
+                    userInfoScreen.classList.remove('active', 'exit');
+                    welcomeScreen.classList.add('active');
+                    globalBackBtn.style.visibility = 'hidden';
+                }, 300);
+            } else if (quizScreen.classList.contains('active')) {
+                if (currentQuestionIndex > 0) {
+                    prevQuestion();
+                } else {
+                    quizScreen.classList.add('exit');
+                    setTimeout(() => {
+                        quizScreen.classList.remove('active', 'exit');
+                        userInfoScreen.classList.add('active');
+                        progressBar.style.width = '0%';
+                    }, 300);
+                }
+            } else if (completionScreen.classList.contains('active')) {
+                completionScreen.classList.add('exit');
+                setTimeout(() => {
+                    completionScreen.classList.remove('active', 'exit');
+                    welcomeScreen.classList.add('active');
+                    globalBackBtn.style.visibility = 'hidden';
+                    progressBar.style.width = '0%';
+                    // Reset state
+                    currentQuestionIndex = 0;
+                    answers = {};
+                    userInfo = {};
+                    userNameInput.value = '';
+                    userCompanyInput.value = '';
+                    userPositionInput.value = '';
+                    userEmailInput.value = '';
+                    checkUserInfo();
+                }, 300);
+            }
+        });
+
+        // Quiz Logic
+        function startQuiz() {
+            welcomeScreen.classList.add('exit');
+            setTimeout(() => {
+                welcomeScreen.classList.remove('active', 'exit');
+                userInfoScreen.classList.add('active');
+                globalBackBtn.style.visibility = 'visible';
+            }, 300);
+        }
+
+        function checkUserInfo() {
+            const isValid = userNameInput.value.trim() !== '' && 
+                            userCompanyInput.value.trim() !== '' && 
+                            userPositionInput.value.trim() !== '' && 
+                            userEmailInput.value.trim() !== '' &&
+                            userEmailInput.checkValidity();
+            submitUserInfoBtn.disabled = !isValid;
+        }
+
+        [userNameInput, userCompanyInput, userPositionInput, userEmailInput].forEach(input => {
+            input.addEventListener('input', checkUserInfo);
+        });
+
+        function submitUserInfo() {
+            userInfo = {
+                name: userNameInput.value.trim(),
+                company: userCompanyInput.value.trim(),
+                position: userPositionInput.value.trim(),
+                email: userEmailInput.value.trim()
+            };
+            
+            userInfoScreen.classList.add('exit');
+            setTimeout(() => {
+                userInfoScreen.classList.remove('active', 'exit');
+                quizScreen.classList.add('active');
+                renderQuestion(0);
+            }, 300);
+        }
+
+        function renderQuestion(index) {
+            const q = questions[index];
+            
+            // Update section chips
+            sectionChipsContainer.innerHTML = '';
+            sections.forEach((s, i) => {
+                const chip = document.createElement('span');
+                chip.className = `section-indicator ${q.section === i ? 'active' : ''}`;
+                chip.textContent = s.split(' — ')[0]; // Just "Раздел X"
+                sectionChipsContainer.appendChild(chip);
+            });
+
+            questionMeta.textContent = `Вопрос ${index + 1} из ${questions.length} • ${sections[q.section]}`;
+            questionText.textContent = q.text;
+            
+            optionsList.innerHTML = '';
+            q.options.forEach(opt => {
+                const card = document.createElement('div');
+                card.className = 'option-card';
+                const isSelected = answers[q.id] && answers[q.id].options.includes(opt.id);
+                if (isSelected) {
+                    card.classList.add('selected');
+                }
+                card.setAttribute('tabindex', '0');
+                card.setAttribute('role', 'checkbox');
+                card.setAttribute('aria-checked', isSelected);
+                
+                card.innerHTML = `
+                    <span class="text-body">${opt.text}</span>
+                    <i data-lucide="${isSelected ? 'check-square' : 'square'}" class="check-icon" size="20" style="opacity: 1; color: ${isSelected ? 'var(--accent)' : 'var(--text-muted)'}"></i>
+                `;
+                
+                card.addEventListener('click', () => selectOption(q, opt));
+                card.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        selectOption(q, opt);
+                    }
+                });
+                
+                optionsList.appendChild(card);
+            });
+
+            lucide.createIcons();
+
+            // Update Progress
+            const progress = ((index + 1) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            // Navigation buttons
+            nextBtn.innerHTML = index === questions.length - 1 ? 'Отправить ответы <i data-lucide="send" size="18"></i>' : 'Далее <i data-lucide="arrow-right" size="18"></i>';
+            updateNextButtonState();
+
+            // Handle optional text input
+            const savedAnswer = answers[q.id];
+            const hasAnyInputOption = q.options.some(o => savedAnswer && savedAnswer.options.includes(o.id) && o.hasInput);
+            
+            if (hasAnyInputOption) {
+                textInputContainer.classList.add('visible');
+                // Find the first selected option with input to get its label, or use generic
+                const firstInputOpt = q.options.find(o => savedAnswer.options.includes(o.id) && o.hasInput);
+                inputLabel.textContent = firstInputOpt.inputLabel || "Ваш ответ";
+                openInput.value = savedAnswer.otherText || '';
+                charCount.textContent = openInput.value.length;
+            } else {
+                textInputContainer.classList.remove('visible');
+                openInput.value = '';
+            }
+        }
+
+        function selectOption(q, opt) {
+            if (!answers[q.id]) {
+                answers[q.id] = { options: [], otherText: '' };
+            }
+            
+            const index = answers[q.id].options.indexOf(opt.id);
+            if (index > -1) {
+                answers[q.id].options.splice(index, 1);
+            } else {
+                answers[q.id].options.push(opt.id);
+            }
+            
+            // Re-render to update selected state
+            renderQuestion(currentQuestionIndex);
+            
+            updateNextButtonState();
+        }
+
+        function updateNextButtonState() {
+            const currentQ = questions[currentQuestionIndex];
+            const hasAnswer = answers[currentQ.id] && answers[currentQ.id].options.length > 0;
+            nextBtn.disabled = !hasAnswer;
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion(currentQuestionIndex);
+            } else {
+                completeQuiz();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion(currentQuestionIndex);
+            }
+        }
+
+        function completeQuiz() {
+            saveFinalData();
+
+            quizScreen.classList.add('exit');
+            setTimeout(() => {
+                quizScreen.classList.remove('active', 'exit');
+                completionScreen.classList.add('active');
+                progressBar.style.width = '100%';
+            }, 300);
+        }
+
+        function saveFinalData() {
+            const finalData = {
+                sessionId: sessionId,
+                timestamp: new Date().toISOString(),
+                userInfo: userInfo,
+                answers: answers
+            };
+            
+            // In a real app, this would be an API call to save the data
+            // For now, we save to localStorage to simulate saving
+            let allResponses = JSON.parse(localStorage.getItem('survey_responses_2026') || '[]');
+            allResponses.push(finalData);
+            localStorage.setItem('survey_responses_2026', JSON.stringify(allResponses));
+            
+            // Also save current session for easy access
+            localStorage.setItem('current_survey_session', JSON.stringify(finalData));
+        }
+
+        function viewResults() {
+            // Redirect to the dashboard page
+            window.location.href = '/dashboard.html';
+        }
+
+        // Event Listeners
+        startBtn.addEventListener('click', startQuiz);
+        submitUserInfoBtn.addEventListener('click', submitUserInfo);
+        nextBtn.addEventListener('click', nextQuestion);
+        viewResultsBtn.addEventListener('click', viewResults);
+
+        openInput.addEventListener('input', (e) => {
+            const currentQ = questions[currentQuestionIndex];
+            if (answers[currentQ.id]) {
+                answers[currentQ.id].otherText = e.target.value;
+            }
+            charCount.textContent = e.target.value.length;
+        });
+
+        // Keyboard Support
+        window.addEventListener('keydown', (e) => {
+            if (!quizScreen.classList.contains('active')) return;
+            
+            if (e.key === 'ArrowRight' || (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA')) {
+                if (!nextBtn.disabled) nextQuestion();
+            } else if (e.key === 'ArrowLeft') {
+                prevQuestion();
+            } else if (e.key === 'Backspace' && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'INPUT') {
+                prevQuestion();
+            }
+        });
+    </script>
+</body>
+</html>
