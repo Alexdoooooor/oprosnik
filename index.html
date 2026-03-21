@@ -53,7 +53,7 @@
             color: var(--text);
             font-family: var(--font-body);
             line-height: 1.5;
-            min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             flex-direction: column;
             transition: background-color 300ms ease, color 300ms ease;
@@ -335,15 +335,13 @@
 
         @media (max-width: 600px) {
             .nav-footer {
-                position: fixed;
-                bottom: 0;
-                left: 0;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+                margin-top: 32px;
+            }
+            .nav-footer .btn {
                 width: 100%;
-                background: var(--bg);
-                padding: 16px 24px;
-                border-top: 1px solid var(--border);
-                margin-top: 0;
-                z-index: 90;
             }
         }
 
@@ -550,19 +548,14 @@
         <div id="progressBar" class="progress-bar"></div>
     </div>
 
-    <header style="display: flex; justify-content: space-between; width: 100%; align-items: center; padding: 16px 24px; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--surface); border-bottom: 1px solid var(--border); backdrop-filter: blur(8px);">
+    <header style="display: flex; justify-content: space-between; width: 100%; align-items: center; padding: 12px 24px; position: fixed; top: 0; left: 0; z-index: 100; background: var(--surface); border-bottom: 1px solid var(--border); backdrop-filter: blur(8px);">
         <button id="globalBackBtn" class="btn btn-ghost" style="visibility: hidden;">
-            <i data-lucide="arrow-left" size="18"></i> Назад
+            <i data-lucide="arrow-left" size="18"></i> <span data-i18n="back">Назад</span>
         </button>
         <div style="display: flex; gap: 12px; align-items: center; margin-left: auto;">
-            <select id="langSelector" onchange="setLanguage(this.value)" style="background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px;">
+            <select id="langSelector" onchange="setLanguage(this.value)" style="background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px; cursor: pointer; font-family: var(--font-body); outline: none;">
                 <option value="ru">RU</option>
                 <option value="en">EN</option>
-                <option value="ar">AR</option>
-                <option value="hi">HI</option>
-                <option value="zh">ZH</option>
-                <option value="es">ES</option>
-                <option value="de">DE</option>
             </select>
             <button id="adminLoginBtn" class="btn btn-ghost" title="Вход для администратора">
                 <i data-lucide="log-in" size="18"></i> <span class="hide-mobile" data-i18n="login">Войти</span>
@@ -586,11 +579,11 @@
             <div style="display: flex; flex-direction: column; gap: 16px;">
                 <div>
                     <label for="adminUsername" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);" data-i18n="admin_login_username">Логин</label>
-                    <input type="text" id="adminUsername" placeholder="Введите логин" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
+                    <input type="text" id="adminUsername" data-i18n-placeholder="admin_login_username_placeholder" placeholder="Введите логин" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
                 </div>
                 <div>
                     <label for="adminPassword" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);" data-i18n="admin_login_password">Пароль</label>
-                    <input type="password" id="adminPassword" placeholder="Введите пароль" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
+                    <input type="password" id="adminPassword" data-i18n-placeholder="admin_login_password_placeholder" placeholder="Введите пароль" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
                 </div>
                 <p id="adminLoginError" style="color: #ef4444; font-size: 0.875rem; display: none;" data-i18n="admin_login_error">Неверный логин или пароль</p>
                 <button id="submitAdminLoginBtn" class="btn btn-primary" style="width: 100%; margin-top: 8px;" data-i18n="admin_login_submit">Войти</button>
@@ -598,20 +591,20 @@
         </div>
     </div>
 
-    <main class="container" style="padding-top: 80px;">
+    <main class="container" style="padding-top: 100px;">
         <!-- Welcome Screen -->
         <section id="welcomeScreen" class="screen welcome-screen active">
             <h1 class="display-large" data-i18n="welcome_title">Туризм России 2026</h1>
             <p class="display-medium" style="color: var(--text-muted);" data-i18n="welcome_subtitle">Экспертный опрос для руководителей и специалистов отрасли</p>
             
             <div class="chips-row">
-                <span class="chip" data-i18n="chip1">⏱ 7–10 минут</span>
-                <span class="chip" data-i18n="chip2">🔒 Анонимно</span>
-                <span class="chip" data-i18n="chip3">📊 Получите отчёт</span>
+                <span class="chip" data-i18n="chip_time">⏱ 7–10 минут</span>
+                <span class="chip" data-i18n="chip_anon">🔒 Анонимно</span>
+                <span class="chip" data-i18n="chip_report">📊 Получите отчёт</span>
             </div>
 
             <p class="intro-text" data-i18n="intro_text">
-                Исследование посвящено анализу ландшафта российского туризма в 2026 году: тренды въездного, внутреннего и выездного направлений.
+                Исследование посвялено анализу ландшафта российского туризма в 2026 году: тренды въездного, внутреннего и выездного направлений.
             </p>
 
             <button id="startBtn" class="btn btn-primary btn-large" data-i18n="start_btn">Начать опрос &rarr;</button>
@@ -620,33 +613,33 @@
 
         <!-- User Info Screen -->
         <section id="userInfoScreen" class="screen">
-            <h2 class="display-medium" style="margin-bottom: 24px; text-align: center;">Давайте познакомимся</h2>
-            <p style="color: var(--text-muted); text-align: center; margin-bottom: 32px;">Пожалуйста, заполните небольшую анкету перед началом опроса.</p>
+            <h2 class="display-medium" style="margin-bottom: 24px; text-align: center;" data-i18n="user_info_title">Давайте познакомимся</h2>
+            <p style="color: var(--text-muted); text-align: center; margin-bottom: 32px;" data-i18n="user_info_subtitle">Пожалуйста, заполните небольшую анкету перед началом опроса.</p>
             
             <div class="contact-card" style="margin: 0 auto; width: 100%; max-width: 500px;">
                 <div style="display: flex; flex-direction: column; gap: 16px;">
                     <div>
-                        <label for="userName" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Ваше имя *</label>
-                        <input type="text" id="userName" required placeholder="Иван Иванов" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
+                        <label for="userName" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);" data-i18n="label_name">Ваше имя *</label>
+                        <input type="text" id="userName" required placeholder="Иван Иванов" data-i18n="placeholder_name" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
                     </div>
                     <div>
-                        <label for="userCompany" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Компания *</label>
-                        <input type="text" id="userCompany" required placeholder="Название компании" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
+                        <label for="userCompany" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);" data-i18n="label_company">Компания *</label>
+                        <input type="text" id="userCompany" required placeholder="Название компании" data-i18n="placeholder_company" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
                     </div>
                     <div>
-                        <label for="userPosition" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Должность *</label>
-                        <input type="text" id="userPosition" required placeholder="Ваша должность" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
+                        <label for="userPosition" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);" data-i18n="label_position">Должность *</label>
+                        <input type="text" id="userPosition" required placeholder="Ваша должность" data-i18n="placeholder_position" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
                     </div>
                     <div>
-                        <label for="userEmail" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Email *</label>
-                        <input type="email" id="userEmail" required placeholder="example@mail.ru" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
+                        <label for="userEmail" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);" data-i18n="label_email">Email *</label>
+                        <input type="email" id="userEmail" required placeholder="example@mail.ru" data-i18n="placeholder_email" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
                     </div>
                 </div>
             </div>
 
             <div class="nav-footer" style="justify-content: center; margin-top: 32px;">
                 <button id="submitUserInfoBtn" class="btn btn-primary btn-large" disabled>
-                    Перейти к опросу <i data-lucide="arrow-right" size="18"></i>
+                    <span data-i18n="btn_to_survey">Перейти к опросу</span> <i data-lucide="arrow-right" size="18"></i>
                 </button>
             </div>
         </section>
@@ -656,26 +649,26 @@
             <div id="sectionChips" class="section-chips">
                 <!-- 6 chips injected by JS -->
             </div>
-            <div id="questionMeta" class="question-meta">Вопрос 1 из 20</div>
+            <div id="questionMeta" class="question-meta" data-i18n="quiz_step" data-i18n-vars='{"n": 1, "total": 20}'>Вопрос 1 из 20</div>
             
             <fieldset style="border: none;">
                 <legend id="questionText" class="display-medium question-text">Текст вопроса</legend>
-                <p class="text-tiny" style="color: var(--text-muted); margin-top: -24px; margin-bottom: 24px;">Выберите один или несколько вариантов ответа</p>
+                <p class="text-tiny" style="color: var(--text-muted); margin-top: -24px; margin-bottom: 24px;" data-i18n="quiz_multiple">Выберите один или несколько вариантов ответа</p>
                 
                 <div id="optionsList" class="options-list" role="group">
                     <!-- Options injected by JS -->
                 </div>
 
                 <div id="textInputContainer" class="text-input-container">
-                    <label for="openInput" id="inputLabel" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Ваш ответ</label>
-                    <textarea id="openInput" maxlength="500" placeholder="Введите здесь..."></textarea>
+                    <label for="openInput" id="inputLabel" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);" data-i18n="label_your_answer">Ваш ответ</label>
+                    <textarea id="openInput" maxlength="500" placeholder="Введите здесь..." data-i18n="placeholder_text"></textarea>
                     <div class="char-counter"><span id="charCount">0</span>/500</div>
                 </div>
             </fieldset>
 
             <div class="nav-footer" style="justify-content: flex-end;">
                 <button id="nextBtn" class="btn btn-primary" disabled>
-                    Далее <i data-lucide="arrow-right" size="18"></i>
+                    <span data-i18n="btn_next">Далее</span> <i data-lucide="arrow-right" size="18"></i>
                 </button>
             </div>
         </section>
@@ -687,16 +680,16 @@
                 <polyline points="30 50 45 65 70 35"></polyline>
             </svg>
             
-            <h2 class="display-medium">Спасибо за участие!</h2>
-            <p style="color: var(--text-muted);">Ваши ответы записаны</p>
+            <h2 class="display-medium" data-i18n="thanks_title">Спасибо за участие!</h2>
+            <p style="color: var(--text-muted);" data-i18n="thanks_subtitle">Ваши ответы записаны</p>
             
-            <p class="intro-text">
+            <p class="intro-text" data-i18n="thanks_text">
                 Вы получите сводный аналитический отчёт по результатам исследования.
             </p>
 
             <div class="actions-row">
                 <a href="./dashboard.html" id="viewResultsBtn" class="btn btn-primary">
-                    <i data-lucide="bar-chart-2" size="18"></i> Посмотреть общие результаты
+                    <i data-lucide="bar-chart-2" size="18"></i> <span data-i18n="btn_view_results">Посмотреть общие результаты</span>
                 </a>
             </div>
         </section>
@@ -704,228 +697,228 @@
 
     <script>
         const sections = [
-            "Раздел 1 — Профиль участника",
-            "Раздел 2 — Въездной туризм (Inbound)",
-            "Раздел 3 — Внутренний туризм (Domestic)",
-            "Раздел 4 — Выездной туризм (Outbound)",
-            "Раздел 5 — Технологии и каналы продаж",
-            "Раздел 6 — Прогнозы и ожидания"
+            "section1",
+            "section2",
+            "section3",
+            "section4",
+            "section5",
+            "section6"
         ];
 
         const questions = [
             // SECTION 1
             {
-                id: 1, section: 0, text: "Ваша роль в туристической отрасли",
+                id: 1, section: 0, textKey: "q1_text",
                 options: [
-                    { id: "A", text: "Руководитель / владелец туроператора" },
-                    { id: "B", text: "Руководитель / владелец турагентства" },
-                    { id: "C", text: "Отельер / управляющий средством размещения" },
-                    { id: "D", text: "Эксперт, аналитик или консультант рынка" },
-                    { id: "E", text: "Представитель региональной / федеральной структуры в туризме" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q1_optA" },
+                    { id: "B", textKey: "q1_optB" },
+                    { id: "C", textKey: "q1_optC" },
+                    { id: "D", textKey: "q1_optD" },
+                    { id: "E", textKey: "q1_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             {
-                id: 2, section: 0, text: "С какими направлениями вы работаете преимущественно?",
+                id: 2, section: 0, textKey: "q2_text",
                 options: [
-                    { id: "A", text: "Только внутренний туризм" },
-                    { id: "B", text: "Только выездной туризм" },
-                    { id: "C", text: "Только въездной туризм (иностранцы в Россию)" },
-                    { id: "D", text: "Внутренний + выездной" },
-                    { id: "E", text: "Все направления одновременно" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q2_optA" },
+                    { id: "B", textKey: "q2_optB" },
+                    { id: "C", textKey: "q2_optC" },
+                    { id: "D", textKey: "q2_optD" },
+                    { id: "E", textKey: "q2_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             {
-                id: 3, section: 0, text: "Ваш основной регион / география работы",
+                id: 3, section: 0, textKey: "q3_text",
                 options: [
-                    { id: "A", text: "Москва и Московская область" },
-                    { id: "B", text: "Санкт-Петербург и Северо-Запад" },
-                    { id: "C", text: "Краснодарский край / Черноморское побережье" },
-                    { id: "D", text: "Другой российский регион" },
-                    { id: "E", text: "Работаю на нескольких регионах / федеральный уровень" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q3_optA" },
+                    { id: "B", textKey: "q3_optB" },
+                    { id: "C", textKey: "q3_optC" },
+                    { id: "D", textKey: "q3_optD" },
+                    { id: "E", textKey: "q3_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             // SECTION 2
             {
-                id: 4, section: 1, text: "Замечаете ли вы рост интереса к России на фоне нестабильности на Ближнем Востоке?",
+                id: 4, section: 1, textKey: "q4_text",
                 options: [
-                    { id: "A", text: "Да — заметный рост запросов и реальных бронирований" },
-                    { id: "B", text: "Интерес есть, но до реального потока туристов далеко" },
-                    { id: "C", text: "Скорее нет — ситуация на Ближнем Востоке не влияет на Россию" },
-                    { id: "D", text: "Россия пока не воспринимается как альтернативное направление" },
-                    { id: "E", text: "Затрудняюсь ответить / не отслеживаю въездной туризм" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q4_optA" },
+                    { id: "B", textKey: "q4_optB" },
+                    { id: "C", textKey: "q4_optC" },
+                    { id: "D", textKey: "q4_optD" },
+                    { id: "E", textKey: "q4_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             {
-                id: 5, section: 1, text: "Туристы из каких регионов проявляют наибольший интерес к въезду в Россию?",
+                id: 5, section: 1, textKey: "q5_text",
                 options: [
-                    { id: "A", text: "Страны Ближнего Востока (ОАЭ, Саудовская Аравия, Иран, Египет)" },
-                    { id: "B", text: "Страны СНГ (Казахстан, Узбекистан, Беларусь, Армения и др.)" },
-                    { id: "C", text: "Китай, Индия, страны Юго-Восточной Азии" },
-                    { id: "D", text: "Страны Африки и Латинской Америки" },
-                    { id: "E", text: "Интереса со стороны иностранных туристов практически нет" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q5_optA" },
+                    { id: "B", textKey: "q5_optB" },
+                    { id: "C", textKey: "q5_optC" },
+                    { id: "D", textKey: "q5_optD" },
+                    { id: "E", textKey: "q5_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             {
-                id: 6, section: 1, text: "Какие российские направления чаще всего запрашивают иностранные туристы?",
+                id: 6, section: 1, textKey: "q6_text",
                 options: [
-                    { id: "A", text: "Москва и Санкт-Петербург (классический маршрут)" },
-                    { id: "B", text: "Краснодарский край / Черноморское побережье" },
-                    { id: "C", text: "Сибирь, Байкал, Дальний Восток" },
-                    { id: "D", text: "Казань, Екатеринбург, Золотое кольцо" },
-                    { id: "E", text: "Иностранцы пока не запрашивают конкретные направления" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q6_optA" },
+                    { id: "B", textKey: "q6_optB" },
+                    { id: "C", textKey: "q6_optC" },
+                    { id: "D", textKey: "q6_optD" },
+                    { id: "E", textKey: "q6_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             {
-                id: 7, section: 1, text: "Что является главным барьером для роста въездного туризма в Россию?",
+                id: 7, section: 1, textKey: "q7_text",
                 options: [
-                    { id: "A", text: "Визовые ограничения и сложность оформления" },
-                    { id: "B", text: "Сложности с международными платежами и картами" },
-                    { id: "C", text: "Отсутствие прямых рейсов из ключевых стран" },
-                    { id: "D", text: "Негативный медиаобраз России за рубежом" },
-                    { id: "E", text: "Слабая инфраструктура и языковой барьер для иностранцев" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q7_optA" },
+                    { id: "B", textKey: "q7_optB" },
+                    { id: "C", textKey: "q7_optC" },
+                    { id: "D", textKey: "q7_optD" },
+                    { id: "E", textKey: "q7_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             // SECTION 3
             {
-                id: 8, section: 2, text: "Каков типичный возраст активного внутреннего туриста в 2025–2026 году?",
+                id: 8, section: 2, textKey: "q8_text",
                 options: [
-                    { id: "A", text: "18–25 лет (молодёжь, студенты)" },
-                    { id: "B", text: "25–35 лет (молодые профессионалы и пары)" },
-                    { id: "C", text: "35–50 лет (семьи с детьми, средний класс)" },
-                    { id: "D", text: "50+ лет (зрелые путешественники, пенсионеры)" },
-                    { id: "E", text: "Все возрасты в равной степени" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q8_optA" },
+                    { id: "B", textKey: "q8_optB" },
+                    { id: "C", textKey: "q8_optC" },
+                    { id: "D", textKey: "q8_optD" },
+                    { id: "E", textKey: "q8_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             {
-                id: 9, section: 2, text: "Какой стиль путешествий внутри страны преобладает сейчас?",
+                id: 9, section: 2, textKey: "q9_text",
                 options: [
-                    { id: "A", text: "Самостоятельные поездки без турагентства" },
-                    { id: "B", text: "Организованные туры и пакетные предложения" },
-                    { id: "C", text: "Комбинированные поездки (частично самостоятельно, частично через агента)" },
-                    { id: "D", text: "Корпоративные и деловые поездки (MICE)" },
-                    { id: "E", text: "Групповые туры для узких аудиторий (молодёжь, seniors, тематические)" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q9_optA" },
+                    { id: "B", textKey: "q9_optB" },
+                    { id: "C", textKey: "q9_optC" },
+                    { id: "D", textKey: "q9_optD" },
+                    { id: "E", textKey: "q9_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             {
-                id: 10, section: 2, text: "Какой формат внутреннего туризма растёт быстрее всего?",
+                id: 10, section: 2, textKey: "q10_text",
                 options: [
-                    { id: "A", text: "Экотуризм, глэмпинг и природный отдых" },
-                    { id: "B", text: "Гастрономический и культурный туризм" },
-                    { id: "C", text: "Активный туризм (треккинг, горы, сплавы)" },
-                    { id: "D", text: "Велнес и оздоровительные курорты" },
-                    { id: "E", text: "Короткие городские поездки (уик-энд в другом городе)" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q10_optA" },
+                    { id: "B", textKey: "q10_optB" },
+                    { id: "C", textKey: "q10_optC" },
+                    { id: "D", textKey: "q10_optD" },
+                    { id: "E", textKey: "q10_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             {
-                id: 11, section: 2, text: "Как изменился средний чек внутреннего туриста за последний год?",
+                id: 11, section: 2, textKey: "q11_text",
                 options: [
-                    { id: "A", text: "Вырос более чем на 20%" },
-                    { id: "B", text: "Вырос незначительно — в пределах 10–20%" },
-                    { id: "C", text: "Остался примерно на прежнем уровне" },
-                    { id: "D", text: "Снизился — туристы стали экономить" },
-                    { id: "E", text: "Затрудняюсь оценить" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q11_optA" },
+                    { id: "B", textKey: "q11_optB" },
+                    { id: "C", textKey: "q11_optC" },
+                    { id: "D", textKey: "q11_optD" },
+                    { id: "E", textKey: "q11_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             {
-                id: 12, section: 2, text: "Какие регионы России покажут наибольший туристический рост в 2026 году?",
+                id: 12, section: 2, textKey: "q12_text",
                 options: [
-                    { id: "A", text: "Краснодарский край и Крым" },
-                    { id: "B", text: "Санкт-Петербург и Ленинградская область" },
-                    { id: "C", text: "Алтай, Байкал, Сибирь" },
-                    { id: "D", text: "Татарстан, Поволжье, Урал" },
-                    { id: "E", text: "Дальний Восток и Арктические маршруты" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q12_optA" },
+                    { id: "B", textKey: "q12_optB" },
+                    { id: "C", textKey: "q12_optC" },
+                    { id: "D", textKey: "q12_optD" },
+                    { id: "E", textKey: "q12_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             // SECTION 4
             {
-                id: 13, section: 3, text: "Каков тренд выездного туризма из России в 2026 году?",
+                id: 13, section: 3, textKey: "q13_text",
                 options: [
-                    { id: "A", text: "Активный рост — россияне едут за рубеж больше, чем раньше" },
-                    { id: "B", text: "Незначительный рост" },
-                    { id: "C", text: "Стагнация — уровень примерно как в 2025 году" },
-                    { id: "D", text: "Снижение — больше переориентации на внутренний туризм" },
-                    { id: "E", text: "Затрудняюсь оценить" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q13_optA" },
+                    { id: "B", textKey: "q13_optB" },
+                    { id: "C", textKey: "q13_optC" },
+                    { id: "D", textKey: "q13_optD" },
+                    { id: "E", textKey: "q13_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             {
-                id: 14, section: 3, text: "Какие зарубежные направления наиболее популярны у российских туристов сейчас?",
+                id: 14, section: 3, textKey: "q14_text",
                 options: [
-                    { id: "A", text: "Турция, ОАЭ, Египет" },
-                    { id: "B", text: "Таиланд, Вьетнам, Индонезия, Индия" },
-                    { id: "C", text: "Страны СНГ (Казахстан, Узбекистан, Беларусь, Армения)" },
-                    { id: "D", text: "Китай, Куба, ЮАР, Латинская Америка" },
-                    { id: "E", text: "Европейские направления (через третьи страны)" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q14_optA" },
+                    { id: "B", textKey: "q14_optB" },
+                    { id: "C", textKey: "q14_optC" },
+                    { id: "D", textKey: "q14_optD" },
+                    { id: "E", textKey: "q14_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             {
-                id: 15, section: 3, text: "Как изменилось поведение российского выездного туриста за последние 2 года?",
+                id: 15, section: 3, textKey: "q15_text",
                 options: [
-                    { id: "A", text: "Больше самостоятельных поездок, меньше организованных туров" },
-                    { id: "B", text: "Переориентация на «дружественные» страны и СНГ" },
-                    { id: "C", text: "Рост спроса на длительные поездки (2 недели и больше)" },
-                    { id: "D", text: "Снижение среднего бюджета из-за курса и логистики" },
-                    { id: "E", text: "Аудитория сократилась, но оставшиеся тратят значительно больше" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q15_optA" },
+                    { id: "B", textKey: "q15_optB" },
+                    { id: "C", textKey: "q15_optC" },
+                    { id: "D", textKey: "q15_optD" },
+                    { id: "E", textKey: "q15_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             // SECTION 5
             {
-                id: 16, section: 4, text: "Какой цифровой инструмент реально влияет на вашу работу прямо сейчас?",
+                id: 16, section: 4, textKey: "q16_text",
                 options: [
-                    { id: "A", text: "ИИ-ассистенты и чат-боты для общения с клиентами" },
-                    { id: "B", text: "Онлайн-агрегаторы и системы бронирования" },
-                    { id: "C", text: "Системы динамического ценообразования" },
-                    { id: "D", text: "Аналитические платформы и BI-инструменты" },
-                    { id: "E", text: "Цифровые инструменты пока слабо влияют на мою работу" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q16_optA" },
+                    { id: "B", textKey: "q16_optB" },
+                    { id: "C", textKey: "q16_optC" },
+                    { id: "D", textKey: "q16_optD" },
+                    { id: "E", textKey: "q16_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             {
-                id: 17, section: 4, text: "Как туристы чаще всего находят и бронируют поездки по России?",
+                id: 17, section: 4, textKey: "q17_text",
                 options: [
-                    { id: "A", text: "Через онлайн-агрегаторы (Островок, Суточно, Яндекс Путешествия)" },
-                    { id: "B", text: "Напрямую на сайтах отелей и операторов" },
-                    { id: "C", text: "Через турагентов лично или по рекомендации" },
-                    { id: "D", text: "Через социальные сети и Telegram-каналы" },
-                    { id: "E", text: "Комбинируют несколько каналов одновременно" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q17_optA" },
+                    { id: "B", textKey: "q17_optB" },
+                    { id: "C", textKey: "q17_optC" },
+                    { id: "D", textKey: "q17_optD" },
+                    { id: "E", textKey: "q17_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             // SECTION 6
             {
-                id: 18, section: 5, text: "Как вы оцениваете общий туристический климат в России на 2026 год?",
+                id: 18, section: 5, textKey: "q18_text",
                 options: [
-                    { id: "A", text: "😊 Очень благоприятный — отрасль активно растёт" },
-                    { id: "B", text: "🙂 Умеренно позитивный — рост есть, но с ограничениями" },
-                    { id: "C", text: "😐 Нейтральный — ситуация стабильная, без резких изменений" },
-                    { id: "D", text: "😟 Сложный — много препятствий для развития" },
-                    { id: "E", text: "😰 Критический — отрасль находится в кризисе" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q18_optA" },
+                    { id: "B", textKey: "q18_optB" },
+                    { id: "C", textKey: "q18_optC" },
+                    { id: "D", textKey: "q18_optD" },
+                    { id: "E", textKey: "q18_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             },
             {
-                id: 19, section: 5, text: "Какое главное препятствие тормозит развитие туризма в России в 2026 году?",
+                id: 19, section: 5, textKey: "q19_text",
                 options: [
-                    { id: "A", text: "Высокие цены на перелёты и транспортную доступность регионов" },
-                    { id: "B", text: "Недостаточное качество сервиса и инфраструктуры" },
-                    { id: "C", text: "Нехватка квалифицированных кадров в отрасли" },
-                    { id: "D", text: "Слабая цифровизация и неудобные сервисы для туристов" },
-                    { id: "E", text: "Недостаточная государственная поддержка и субсидирование" },
-                    { id: "Other", text: "Другое (свой вариант)", hasInput: true, inputLabel: "Ваш вариант" }
+                    { id: "A", textKey: "q19_optA" },
+                    { id: "B", textKey: "q19_optB" },
+                    { id: "C", textKey: "q19_optC" },
+                    { id: "D", textKey: "q19_optD" },
+                    { id: "E", textKey: "q19_optE" },
+                    { id: "Other", textKey: "opt_other", hasInput: true, inputLabelKey: "opt_other_label" }
                 ]
             }
         ];
@@ -1068,6 +1061,13 @@
             }
         });
 
+        // Re-render current question on language change
+        window.onLanguageChange = function(lang) {
+            if (quizScreen.classList.contains('active')) {
+                renderQuestion(currentQuestionIndex);
+            }
+        };
+
         // Quiz Logic
         function startQuiz() {
             welcomeScreen.classList.add('exit');
@@ -1112,15 +1112,16 @@
             
             // Update section chips
             sectionChipsContainer.innerHTML = '';
-            sections.forEach((s, i) => {
+            sections.forEach((sKey, i) => {
                 const chip = document.createElement('span');
                 chip.className = `section-indicator ${q.section === i ? 'active' : ''}`;
-                chip.textContent = s.split(' — ')[0]; // Just "Раздел X"
+                chip.textContent = t(sKey).split(' — ')[0]; 
                 sectionChipsContainer.appendChild(chip);
             });
 
-            questionMeta.textContent = `Вопрос ${index + 1} из ${questions.length} • ${sections[q.section]}`;
-            questionText.textContent = q.text;
+            const stepText = t('quiz_step', { n: index + 1, total: questions.length });
+            questionMeta.textContent = `${stepText} • ${t(sections[q.section])}`;
+            questionText.textContent = t(q.textKey);
             
             optionsList.innerHTML = '';
             q.options.forEach(opt => {
@@ -1135,7 +1136,7 @@
                 card.setAttribute('aria-checked', isSelected);
                 
                 card.innerHTML = `
-                    <span class="text-body">${opt.text}</span>
+                    <span class="text-body">${t(opt.textKey)}</span>
                     <i data-lucide="${isSelected ? 'check-square' : 'square'}" class="check-icon" size="20" style="opacity: 1; color: ${isSelected ? 'var(--accent)' : 'var(--text-muted)'}"></i>
                 `;
                 
@@ -1157,7 +1158,9 @@
             progressBar.style.width = `${progress}%`;
 
             // Navigation buttons
-            nextBtn.innerHTML = index === questions.length - 1 ? 'Отправить ответы <i data-lucide="send" size="18"></i>' : 'Далее <i data-lucide="arrow-right" size="18"></i>';
+            const nextBtnText = index === questions.length - 1 ? t('btn_submit_answers') : t('btn_next');
+            const nextBtnIcon = index === questions.length - 1 ? 'send' : 'arrow-right';
+            nextBtn.innerHTML = `${nextBtnText} <i data-lucide="${nextBtnIcon}" size="18"></i>`;
             updateNextButtonState();
 
             // Handle optional text input
@@ -1166,9 +1169,9 @@
             
             if (hasAnyInputOption) {
                 textInputContainer.classList.add('visible');
-                // Find the first selected option with input to get its label, or use generic
                 const firstInputOpt = q.options.find(o => savedAnswer.options.includes(o.id) && o.hasInput);
-                inputLabel.textContent = firstInputOpt.inputLabel || "Ваш ответ";
+                inputLabel.textContent = t(firstInputOpt.inputLabelKey || "label_your_answer");
+                openInput.placeholder = t("placeholder_text");
                 openInput.value = savedAnswer.otherText || '';
                 charCount.textContent = openInput.value.length;
             } else {

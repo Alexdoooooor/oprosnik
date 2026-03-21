@@ -50,13 +50,13 @@
             --shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.05), 0 2px 8px -1px rgba(0, 0, 0, 0.03);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column; transition: background-color 300ms, color 300ms; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.5; min-height: 100dvh; display: flex; flex-direction: column; transition: background-color 300ms, color 300ms; overflow-x: hidden; }
         h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: 1.1; }
         .display-large { font-size: clamp(2.25rem, 7vw, 3.75rem); letter-spacing: -0.02em; }
         .display-medium { font-size: clamp(1.6rem, 5vw, 2.25rem); letter-spacing: -0.01em; }
         .text-body { font-size: clamp(0.9rem, 1.8vw + 0.4rem, 1.05rem); }
         .text-small { font-size: clamp(0.8rem, 1.2vw + 0.4rem, 0.9rem); }
-        .container { max-width: 720px; width: 100%; margin: 0 auto; padding: clamp(20px, 5vw, 32px); flex: 1; display: flex; flex-direction: column; }
+        .container { max-width: 720px; width: 100%; margin: 0 auto; padding: clamp(20px, 5vw, 32px); flex: 1; display: flex; flex-direction: column; overflow-y: auto; -webkit-overflow-scrolling: touch; }
         .container.wide { max-width: 1200px; }
         
         /* Buttons & Inputs */
@@ -74,7 +74,7 @@
         .input-group input.error + .error-text { display: block; }
 
         /* Screens */
-        .screen { display: none; flex-direction: column; flex: 1; animation: fadeIn 280ms ease-out forwards; }
+        .screen { display: none; flex-direction: column; flex: 1; animation: fadeIn 280ms ease-out forwards; overflow-y: auto; -webkit-overflow-scrolling: touch; }
         .screen.active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
         
@@ -144,7 +144,8 @@
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
         @media (max-width: 768px) {
-            .nav-footer { position: sticky; bottom: 0; background: var(--bg); padding: 16px 0; border-top: 1px solid var(--border); }
+            .nav-footer { position: static; background: var(--bg); padding: 16px 0; border-top: 1px solid var(--border); margin-top: 24px; }
+            .header { position: static; }
         }
         @media (prefers-reduced-motion: reduce) {
             * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -167,35 +168,35 @@
         </div>
     </div>
 
-    <main id="mainContainer" class="container">
+        <main id="mainContainer" class="container" style="min-height: calc(100vh - 80px);">
         <!-- REGISTRATION SCREEN -->
-        <section id="screen-register" class="screen active text-center">
-            <h1 class="display-medium mb-4">Представьтесь, пожалуйста</h1>
-            <p style="color: var(--text-muted); margin-bottom: 32px;">Это нужно, чтобы отправить вам сводный отчёт по результатам исследования</p>
-            
-            <form id="regForm" style="max-width: 400px; margin: 0 auto; width: 100%;">
-                <div class="input-group">
-                    <label>Имя и фамилия</label>
-                    <input type="text" id="regName" required>
-                    <div class="error-text">Обязательное поле</div>
-                </div>
-                <div class="input-group">
-                    <label>Компания / организация</label>
-                    <input type="text" id="regCompany" required>
-                    <div class="error-text">Обязательное поле</div>
-                </div>
-                <div class="input-group">
-                    <label>Должность</label>
-                    <input type="text" id="regPosition" required>
-                    <div class="error-text">Обязательное поле</div>
-                </div>
-                <div class="input-group">
-                    <label>Email</label>
-                    <input type="email" id="regEmail" required>
-                    <div class="error-text">Введите корректный email</div>
-                </div>
-                <button type="submit" id="regSubmitBtn" class="btn btn-primary" style="width: 100%; margin-top: 16px;" disabled>Начать опрос &rarr;</button>
-            </form>
+        <section id="screen-register" class="screen active text-center" style="padding: 20px 0;">
+            <div style="max-width: 400px; margin: 0 auto; width: 100%;">
+                <h1 class="display-medium mb-4">Представьтесь, пожалуйста</h1>
+                <p style="color: var(--text-muted); margin-bottom: 32px;">Это нужно, чтобы отправить вам сводный отчёт по результатам исследования</p>
+                
+                <form id="regForm" style="display: flex; flex-direction: column; gap: 24px; text-align: left;">
+                    <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <div>
+                            <label for="userName" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Ваше имя *</label>
+                            <input type="text" id="userName" required placeholder="Иван Иванов" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
+                        </div>
+                        <div>
+                            <label for="userCompany" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Компания *</label>
+                            <input type="text" id="userCompany" required placeholder="Название компании" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
+                        </div>
+                        <div>
+                            <label for="userPosition" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Должность *</label>
+                            <input type="text" id="userPosition" required placeholder="Ваша должность" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
+                        </div>
+                        <div>
+                            <label for="userEmail" class="text-small" style="display: block; margin-bottom: 8px; color: var(--text-muted);">Email *</label>
+                            <input type="email" id="userEmail" required placeholder="example@mail.ru" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); outline: none; font-family: var(--font-body); font-size: 1rem;">
+                        </div>
+                    </div>
+                    <button type="submit" id="regSubmitBtn" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1rem;" disabled>Перейти к опросу &rarr;</button>
+                </form>
+            </div>
         </section>
 
         <!-- WELCOME SCREEN -->
@@ -483,18 +484,28 @@
         // SURVEY LOGIC
         // ==========================================
         const regForm = document.getElementById('regForm');
-        const regInputs = regForm.querySelectorAll('input');
         const regSubmitBtn = document.getElementById('regSubmitBtn');
 
         function validateRegForm() {
             let valid = true;
-            regInputs.forEach(input => {
+            const inputs = [
+                document.getElementById('userName'),
+                document.getElementById('userCompany'),
+                document.getElementById('userPosition'),
+                document.getElementById('userEmail')
+            ];
+            inputs.forEach(input => {
                 if (!input.checkValidity() || input.value.trim() === '') valid = false;
             });
             regSubmitBtn.disabled = !valid;
         }
 
-        regInputs.forEach(input => {
+        [
+            document.getElementById('userName'),
+            document.getElementById('userCompany'),
+            document.getElementById('userPosition'),
+            document.getElementById('userEmail')
+        ].forEach(input => {
             input.addEventListener('input', () => {
                 input.classList.remove('error');
                 validateRegForm();
@@ -509,10 +520,10 @@
             e.preventDefault();
             if (!regSubmitBtn.disabled) {
                 state.userInfo = {
-                    name: document.getElementById('regName').value.trim(),
-                    company: document.getElementById('regCompany').value.trim(),
-                    position: document.getElementById('regPosition').value.trim(),
-                    email: document.getElementById('regEmail').value.trim()
+                    name: document.getElementById('userName').value.trim(),
+                    company: document.getElementById('userCompany').value.trim(),
+                    position: document.getElementById('userPosition').value.trim(),
+                    email: document.getElementById('userEmail').value.trim()
                 };
                 showScreen('screen-welcome');
             }
