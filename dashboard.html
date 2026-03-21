@@ -48,6 +48,11 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+
         body {
             background-color: var(--bg);
             color: var(--text);
@@ -57,6 +62,7 @@
             display: flex;
             flex-direction: column;
             transition: background-color 300ms ease, color 300ms ease;
+            word-break: break-word;
         }
 
         h1, h2, h3 {
@@ -87,6 +93,8 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
         .header-actions {
@@ -161,6 +169,7 @@
             flex-direction: column;
             gap: 8px;
             box-shadow: var(--shadow);
+            min-width: 0;
         }
 
         .summary-card .label {
@@ -192,6 +201,7 @@
             display: flex;
             flex-direction: column;
             transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+            min-width: 0;
         }
 
         .chart-card:hover {
@@ -264,74 +274,80 @@
             <a href="./index.html" class="btn btn-ghost" style="padding: 8px;">
                 <i data-lucide="arrow-left" size="18"></i>
             </a>
-            <h1 class="display-medium" style="margin: 0;">Общие результаты</h1>
+            <h1 class="display-medium" style="margin: 0;" data-i18n="dashboard_title">Общие результаты</h1>
         </div>
         <div class="header-actions">
             <div id="headerStats" style="background: var(--accent-soft); color: var(--accent); padding: 4px 12px; border-radius: 16px; font-weight: 600; font-size: 0.875rem; display: flex; align-items: center; gap: 8px;">
                 <i data-lucide="users" size="14"></i>
-                <span>Участников: <span id="totalResponsesHeader">0</span></span>
+                <span data-i18n="dashboard_participants">Участников</span>: <span id="totalResponsesHeader">0</span>
             </div>
             <a href="./index.html#admin" class="btn btn-ghost" title="Вход для администратора">
-                <i data-lucide="log-in" size="18"></i> <span class="hide-mobile">Войти</span>
+                <i data-lucide="log-in" size="18"></i> <span class="hide-mobile" data-i18n="login">Войти</span>
             </a>
             <button id="themeToggle" class="theme-toggle" aria-label="Переключить тему">
                 <i data-lucide="moon" id="themeIcon"></i>
             </button>
+            <select id="langSelector" style="background: var(--surface); color: var(--text); padding: 8px; border-radius: 8px; border: 1px solid var(--border);">
+                <option value="ru">RU</option>
+                <option value="en">EN</option>
+            </select>
         </div>
     </header>
 
+    <script src="i18n.js"></script>
+
     <main class="container">
         <div id="filters" style="background: var(--surface); padding: 16px; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 24px; display: flex; gap: 16px; flex-wrap: wrap;">
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-                <label for="roleFilter" style="font-size: 0.75rem; color: var(--text-muted);">Роль</label>
-                <select id="roleFilter" style="background: var(--bg); color: var(--text); padding: 8px; border-radius: 8px; border: 1px solid var(--border);">
-                    <option value="all">Все роли</option>
+            <div style="display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 250px; max-width: 100%;">
+                <label for="roleFilter" style="font-size: 0.75rem; color: var(--text-muted);" data-i18n="dashboard_role">Роль</label>
+                <select id="roleFilter" style="background: var(--bg); color: var(--text); padding: 8px; border-radius: 8px; border: 1px solid var(--border); width: 100%; max-width: 100%; text-overflow: ellipsis;">
+                    <option value="all" data-i18n="dashboard_all_roles">Все роли</option>
                 </select>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-                <label for="regionFilter" style="font-size: 0.75rem; color: var(--text-muted);">Регион</label>
-                <select id="regionFilter" style="background: var(--bg); color: var(--text); padding: 8px; border-radius: 8px; border: 1px solid var(--border);">
-                    <option value="all">Все регионы</option>
+            <div style="display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 250px; max-width: 100%;">
+                <label for="regionFilter" style="font-size: 0.75rem; color: var(--text-muted);" data-i18n="dashboard_region">Регион</label>
+                <select id="regionFilter" style="background: var(--bg); color: var(--text); padding: 8px; border-radius: 8px; border: 1px solid var(--border); width: 100%; max-width: 100%; text-overflow: ellipsis;">
+                    <option value="all" data-i18n="dashboard_all_regions">Все регионы</option>
                 </select>
             </div>
         </div>
 
-        <p style="color: var(--text-muted); max-width: 600px; margin-bottom: 24px;">
+        <p style="color: var(--text-muted); max-width: 600px; margin-bottom: 24px;" data-i18n="dashboard_intro">
             Здесь представлены агрегированные и анонимные результаты опроса «Туризм России 2026». Данные обновляются в реальном времени с каждым новым участником.
         </p>
 
-        <div id="summarySection" class="summary-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 32px;">
+        <div id="summarySection" class="summary-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 24px; margin-bottom: 32px;">
             <!-- Summary cards will be injected here -->
         </div>
 
-        <div id="summaryCharts" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 32px;">
-            <div class="chart-card" id="sentimentChartCard">
-                <div class="chart-title">Общий климат отрасли 2026</div>
+        <div id="summaryCharts" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; margin-bottom: 32px;">
+            <div class="chart-card" id="sentimentChartCard" style="grid-column: span 1;">
+                <div class="chart-title" data-i18n="dashboard_sentiment">Общий климат отрасли 2026</div>
                 <div class="chart-container">
                     <canvas id="sentimentChart"></canvas>
                 </div>
             </div>
-            <div class="chart-card" id="rolesChartCard">
-                <div class="chart-title">Состав участников</div>
+            <div class="chart-card" id="rolesChartCard" style="grid-column: span 1;">
+                <div class="chart-title" data-i18n="dashboard_roles">Состав участников</div>
                 <div class="chart-container">
                     <canvas id="rolesChart"></canvas>
                 </div>
             </div>
-            <div class="chart-card" id="digitalChartCard">
-                <div class="chart-title">Цифровые инструменты</div>
+            <div class="chart-card" id="digitalChartCard" style="grid-column: span 1;">
+                <div class="chart-title" data-i18n="dashboard_digital">Цифровые инструменты</div>
                 <div class="chart-container">
                     <canvas id="digitalChart"></canvas>
                 </div>
             </div>
-            <div class="chart-card" id="bookingChartCard">
-                <div class="chart-title">Каналы бронирования</div>
+            <div class="chart-card" id="bookingChartCard" style="grid-column: span 1;">
+                <div class="chart-title" data-i18n="dashboard_booking">Каналы бронирования</div>
                 <div class="chart-container">
                     <canvas id="bookingChart"></canvas>
                 </div>
             </div>
         </div>
 
-        <div class="dashboard-grid" id="chartsContainer">
+        <div class="dashboard-grid" id="chartsContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 24px;">
             <!-- Charts will be injected here -->
         </div>
     </main>
