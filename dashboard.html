@@ -154,10 +154,34 @@
         /* Dashboard Grid */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
-            grid-auto-flow: dense;
-            gap: clamp(20px, 4vw, 32px);
-            margin-top: clamp(24px, 5vw, 40px);
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 450px), 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .summary-charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 450px), 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        @media (min-width: 1200px) {
+            .summary-charts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1600px) {
+            .summary-charts-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .dashboard-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
         .summary-card {
@@ -316,26 +340,26 @@
             <!-- Summary cards will be injected here -->
         </div>
 
-        <div id="summaryCharts" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; margin-bottom: 32px;">
-            <div class="chart-card" id="sentimentChartCard" style="grid-column: span 1;">
+        <div id="summaryCharts" class="summary-charts-grid">
+            <div class="chart-card" id="sentimentChartCard">
                 <div class="chart-title" data-i18n="dashboard_sentiment">Общий климат отрасли 2026</div>
                 <div class="chart-container">
                     <canvas id="sentimentChart"></canvas>
                 </div>
             </div>
-            <div class="chart-card" id="rolesChartCard" style="grid-column: span 1;">
+            <div class="chart-card" id="rolesChartCard">
                 <div class="chart-title" data-i18n="dashboard_roles">Состав участников</div>
                 <div class="chart-container">
                     <canvas id="rolesChart"></canvas>
                 </div>
             </div>
-            <div class="chart-card" id="digitalChartCard" style="grid-column: span 1;">
+            <div class="chart-card" id="digitalChartCard">
                 <div class="chart-title" data-i18n="dashboard_digital">Цифровые инструменты</div>
                 <div class="chart-container">
                     <canvas id="digitalChart"></canvas>
                 </div>
             </div>
-            <div class="chart-card" id="bookingChartCard" style="grid-column: span 1;">
+            <div class="chart-card" id="bookingChartCard">
                 <div class="chart-title" data-i18n="dashboard_booking">Каналы бронирования</div>
                 <div class="chart-container">
                     <canvas id="bookingChart"></canvas>
@@ -343,7 +367,7 @@
             </div>
         </div>
 
-        <div class="dashboard-grid" id="chartsContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 24px;">
+        <div class="dashboard-grid" id="chartsContainer">
             <!-- Charts will be injected here -->
         </div>
     </main>
