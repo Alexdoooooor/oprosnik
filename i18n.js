@@ -187,213 +187,20 @@ const translations = {
         dashboard_roles: "Состав участников",
         dashboard_digital: "Цифровые инструменты",
         dashboard_booking: "Каналы бронирования",
-    },
-    en: {
-        back: "Back",
-        login: "Login",
-        admin_login_title: "Admin Login",
-        admin_login_username: "Username",
-        admin_login_username_placeholder: "Enter username",
-        admin_login_password: "Password",
-        admin_login_password_placeholder: "Enter password",
-        admin_login_error: "Invalid username or password",
-        admin_login_submit: "Login",
-        welcome_title: "Russian Tourism 2026",
-        welcome_subtitle: "Expert survey for industry leaders and specialists",
-        chip_time: "⏱ 7–10 minutes",
-        chip_anon: "🔒 Anonymous",
-        chip_report: "📊 Get a report",
-        intro_text: "The study is dedicated to analyzing the landscape of Russian tourism in 2026: trends in inbound, domestic, and outbound directions.",
-        start_btn: "Start Survey →",
-        report_text: "Participants will receive a consolidated analytical report",
-        user_info_title: "Let's get acquainted",
-        user_info_subtitle: "Please fill out a short questionnaire before starting the survey.",
-        label_name: "Your Name *",
-        placeholder_name: "John Doe",
-        label_company: "Company *",
-        placeholder_company: "Company Name",
-        label_position: "Position *",
-        placeholder_position: "Your Position",
-        label_email: "Email *",
-        placeholder_email: "example@mail.com",
-        btn_to_survey: "Go to Survey",
-        quiz_step: "Question {n} of {total}",
-        quiz_multiple: "Select one or more options",
-        label_your_answer: "Your answer",
-        placeholder_text: "Enter here...",
-        btn_next: "Next",
-        thanks_title: "Thank you for participating!",
-        thanks_subtitle: "Your answers have been recorded",
-        thanks_text: "You will receive a consolidated analytical report based on the survey results.",
-        btn_view_results: "View Overall Results",
-        admin_no_data: "No data",
-        admin_anon: "Anonymous",
-        admin_view_answers: "View answers",
-        admin_modal_title: "Participant answers",
-        admin_no_answers: "No answers",
-        admin_own_answer: "Own answer",
-        csv_session_id: "Session ID",
-        csv_date: "Date",
-        csv_name: "Name",
-        csv_company: "Company",
-        csv_position: "Position",
-        csv_email: "Email",
-        csv_question_id: "Question ID",
-        csv_answers: "Answers",
-        csv_own_answer: "Own answer",
-        section1: "Section 1",
-        section2: "Section 2",
-        section3: "Section 3",
-        section4: "Section 4",
-        section5: "Section 5",
-        section6: "Section 6",
-        btn_submit_answers: "Submit Answers",
-        opt_other: "Other",
-        opt_other_label: "Please specify",
-        q1_text: "Your role in the tourism industry",
-        q2_text: "Which directions do you work with predominantly?",
-        q3_text: "Your main region / geography of work",
-        q4_text: "Do you notice an increase in interest in Russia against the backdrop of instability in the Middle East?",
-        q5_text: "Tourists from which regions show the greatest interest in entering Russia?",
-        q6_text: "Which Russian destinations are most often requested by foreign tourists?",
-        q7_text: "What is the main barrier to the growth of inbound tourism to Russia?",
-        q8_text: "What is the typical age of an active domestic tourist in 2025–2026?",
-        q9_text: "Which style of travel within the country prevails now?",
-        q10_text: "Which format of domestic tourism is growing the fastest?",
-        q11_text: "How has the average check of a domestic tourist changed over the last year?",
-        q12_text: "Which regions of Russia will show the greatest tourism growth in 2026?",
-        q13_text: "What is the trend of outbound tourism from Russia in 2026?",
-        q14_text: "Which foreign destinations are most popular with Russian tourists now?",
-        q15_text: "How has the behavior of the Russian outbound tourist changed over the last 2 years?",
-        q16_text: "Which digital tool really affects your work right now?",
-        q17_text: "How do tourists most often find and book trips in Russia?",
-        q18_text: "How do you assess the overall tourism climate in Russia for 2026?",
-        q19_text: "What is the main obstacle hindering the development of tourism in Russia in 2026?",
-        q1_optA: "Tour operator manager / owner",
-        q1_optB: "Travel agency manager / owner",
-        q1_optC: "Hotelier / accommodation manager",
-        q1_optD: "Market expert, analyst or consultant",
-        q1_optE: "Representative of a regional / federal structure in tourism",
-        q2_optA: "Domestic tourism only",
-        q2_optB: "Outbound tourism only",
-        q2_optC: "Inbound tourism only (foreigners to Russia)",
-        q2_optD: "Domestic + outbound",
-        q2_optE: "All directions simultaneously",
-        q3_optA: "Moscow and Moscow region",
-        q3_optB: "St. Petersburg and the North-West",
-        q3_optC: "Krasnodar Territory / Black Sea coast",
-        q3_optD: "Another Russian region",
-        q3_optE: "Work in several regions / federal level",
-        q4_optA: "Yes — noticeable growth in requests and real bookings",
-        q4_optB: "There is interest, but it's far from a real flow of tourists",
-        q4_optC: "Rather no — the situation in the Middle East does not affect Russia",
-        q4_optD: "Russia is not yet perceived as an alternative destination",
-        q4_optE: "Hard to say / do not track inbound tourism",
-        q5_optA: "Middle East countries (UAE, Saudi Arabia, Iran, Egypt)",
-        q5_optB: "CIS countries (Kazakhstan, Uzbekistan, Belarus, Armenia, etc.)",
-        q5_optC: "China, India, Southeast Asian countries",
-        q5_optD: "African and Latin American countries",
-        q5_optE: "There is practically no interest from foreign tourists",
-        q6_optA: "Moscow and St. Petersburg (classic route)",
-        q6_optB: "Krasnodar Territory / Black Sea coast",
-        q6_optC: "Siberia, Baikal, Far East",
-        q6_optD: "Kazan, Yekaterinburg, Golden Ring",
-        q6_optE: "Foreigners do not yet request specific destinations",
-        q7_optA: "Visa restrictions and complexity of processing",
-        q7_optB: "Difficulties with international payments and cards",
-        q7_optC: "Lack of direct flights from key countries",
-        q7_optD: "Negative media image of Russia abroad",
-        q7_optE: "Weak infrastructure and language barrier for foreigners",
-        q8_optA: "18–25 years old (youth, students)",
-        q8_optB: "25–35 years old (young professionals and couples)",
-        q8_optC: "35–50 years old (families with children, middle class)",
-        q8_optD: "50+ years old (mature travelers, pensioners)",
-        q8_optE: "All ages equally",
-        q9_optA: "Independent trips without a travel agency",
-        q9_optB: "Organized tours and package offers",
-        q9_optC: "Combined trips (partially independent, partially through an agent)",
-        q9_optD: "Corporate and business trips (MICE)",
-        q9_optE: "Group tours for narrow audiences (youth, seniors, thematic)",
-        q10_optA: "Ecotourism, glamping and nature recreation",
-        q10_optB: "Gastronomic and cultural tourism",
-        q10_optC: "Active tourism (trekking, mountains, rafting)",
-        q10_optD: "Wellness and health resorts",
-        q10_optE: "Short city trips (weekend in another city)",
-        q11_optA: "Increased by more than 20%",
-        q11_optB: "Increased slightly — within 10–20%",
-        q11_optC: "Remained at about the same level",
-        q11_optD: "Decreased — tourists started to save money",
-        q11_optE: "Hard to estimate",
-        q12_optA: "Krasnodar Territory and Crimea",
-        q12_optB: "St. Petersburg and Leningrad region",
-        q12_optC: "Altai, Baikal, Siberia",
-        q12_optD: "Tatarstan, Volga region, Urals",
-        q12_optE: "Far East and Arctic routes",
-        q13_optA: "Active growth — Russians are going abroad more than before",
-        q13_optB: "Slight growth",
-        q13_optC: "Stagnation — level about the same as in 2025",
-        q13_optD: "Decrease — more reorientation to domestic tourism",
-        q13_optE: "Hard to estimate",
-        q14_optA: "Turkey, UAE, Egypt",
-        q14_optB: "Thailand, Vietnam, Indonesia, India",
-        q14_optC: "CIS countries (Kazakhstan, Uzbekistan, Belarus, Armenia)",
-        q14_optD: "China, Cuba, South Africa, Latin America",
-        q14_optE: "European destinations (via third countries)",
-        q15_optA: "More independent trips, fewer organized tours",
-        q15_optB: "Reorientation to \"friendly\" countries and CIS",
-        q15_optC: "Growth in demand for long trips (2 weeks or more)",
-        q15_optD: "Decrease in average budget due to exchange rate and logistics",
-        q15_optE: "Audience has shrunk, but those remaining are spending significantly more",
-        q16_optA: "AI assistants and chatbots for customer communication",
-        q16_optB: "Online aggregators and booking systems",
-        q16_optC: "Dynamic pricing systems",
-        q16_optD: "Analytical platforms and BI tools",
-        q16_optE: "Digital tools still have little impact on my work",
-        q17_optA: "Through online aggregators (Ostrovok, Sutochki, Yandex Travel)",
-        q17_optB: "Directly on hotel and operator websites",
-        q17_optC: "Through travel agents personally or by recommendation",
-        q17_optD: "Through social media and Telegram channels",
-        q17_optE: "Combine several channels simultaneously",
-        q18_optA: "😊 Very favorable — the industry is actively growing",
-        q18_optB: "🙂 Moderately positive — growth is there, but with limitations",
-        q18_optC: "😐 Neutral — the situation is stable, without sharp changes",
-        q18_optD: "😟 Difficult — many obstacles to development",
-        q18_optE: "😰 Critical — the industry is in crisis",
-        q19_optA: "High prices for flights and transport accessibility of regions",
-        q19_optB: "Insufficient quality of service and infrastructure",
-        q19_optC: "Shortage of qualified personnel in the industry",
-        q19_optD: "Weak digitalization and inconvenient services for tourists",
-        q19_optE: "Insufficient state support and subsidization",
-        admin_logout: "Logout",
-        dashboard_title: "Overall Results",
-        dashboard_participants: "Participants",
-        dashboard_role: "Role",
-        dashboard_all_roles: "All roles",
-        dashboard_region: "Region",
-        dashboard_all_regions: "All regions",
-        dashboard_intro: "Here are the aggregated and anonymous results of the \"Tourism of Russia 2026\" survey. Data is updated in real-time with each new participant.",
-        dashboard_sentiment: "Overall industry climate 2026",
-        dashboard_roles: "Composition of participants",
-        dashboard_digital: "Digital tools",
-        dashboard_booking: "Booking channels",
     }
 };
 
 let currentLang = 'ru';
 
 window.setLanguage = function(lang) {
-    if (!translations[lang]) {
-        console.warn(`Language ${lang} not found, falling back to English`);
-        lang = 'en';
-    }
-    currentLang = lang;
-    document.documentElement.lang = lang;
+    currentLang = 'ru';
+    document.documentElement.lang = 'ru';
     
     // Update text content
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (translations[lang][key]) {
-            let text = translations[lang][key];
+        if (translations['ru'][key]) {
+            let text = translations['ru'][key];
             
             // Handle variables if data-i18n-vars is present
             const varsAttr = el.getAttribute('data-i18n-vars');
@@ -415,27 +222,21 @@ window.setLanguage = function(lang) {
     // Update placeholders
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
         const key = el.getAttribute('data-i18n-placeholder');
-        if (translations[lang][key]) {
-            el.placeholder = translations[lang][key];
+        if (translations['ru'][key]) {
+            el.placeholder = translations['ru'][key];
         }
     });
     
-    // Update selector value if it exists
-    const selector = document.getElementById('langSelector');
-    if (selector) {
-        selector.value = lang;
-    }
-    
     // Dispatch event for other scripts that might need to know about language change
-    window.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: lang } }));
+    window.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: 'ru' } }));
 }
 
 // Helper function for translating strings with variables
 window.t = function(key, vars = {}) {
-    if (!translations[currentLang] || !translations[currentLang][key]) {
+    if (!translations['ru'] || !translations['ru'][key]) {
         return key; // Fallback to key if not found
     }
-    let text = translations[currentLang][key];
+    let text = translations['ru'][key];
     for (const [k, v] of Object.entries(vars)) {
         text = text.replace(`{${k}}`, v);
     }
@@ -444,18 +245,7 @@ window.t = function(key, vars = {}) {
 
 // Initialize language on load
 function initI18n() {
-    const savedLang = localStorage.getItem('preferredLanguage') || 'ru';
-    window.setLanguage(savedLang);
-    
-    const selector = document.getElementById('langSelector');
-    if (selector) {
-        selector.value = savedLang;
-        selector.addEventListener('change', (e) => {
-            const newLang = e.target.value;
-            localStorage.setItem('preferredLanguage', newLang);
-            window.setLanguage(newLang);
-        });
-    }
+    window.setLanguage('ru');
 }
 
 if (document.readyState === 'loading') {
