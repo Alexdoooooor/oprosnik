@@ -36,7 +36,7 @@ const translations = {
         thanks_title: "Спасибо за участие!",
         thanks_subtitle: "Ваши ответы записаны",
         thanks_text: "Вы получите сводный аналитический отчёт по результатам исследования.",
-        btn_view_results: "Посмотреть общие результаты",
+        btn_view_results: "Общие результаты",
         admin_no_data: "Нет данных",
         admin_anon: "Аноним",
         admin_view_answers: "Смотреть ответы",

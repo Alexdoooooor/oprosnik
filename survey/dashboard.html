@@ -12,6 +12,17 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Access Control
+        (function() {
+            const isCompleted = localStorage.getItem('survey_completed_2026') === 'true';
+            const isAdmin = localStorage.getItem('admin_logged_in') === 'true';
+            
+            if (!isCompleted && !isAdmin) {
+                window.location.href = '../index.html';
+            }
+        })();
+    </script>
     <style>
         :root {
             /* Design Tokens - Dark Mode (Default) - Slightly lighter */
@@ -295,7 +306,10 @@
 <body>
     <header>
         <div style="display: flex; align-items: center; gap: 16px;">
-            <a href="./index.html" class="btn btn-ghost" style="padding: 8px;">
+            <a href="/" class="btn btn-ghost" style="padding: 8px;" title="На главную">
+                <i data-lucide="home" size="18"></i>
+            </a>
+            <a href="./index.html" class="btn btn-ghost" style="padding: 8px;" title="К опросу">
                 <i data-lucide="arrow-left" size="18"></i>
             </a>
             <h1 class="display-medium" style="margin: 0;" data-i18n="dashboard_title">Общие результаты</h1>
@@ -381,6 +395,7 @@
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
             themeIcon.setAttribute('data-lucide', newTheme === 'dark' ? 'moon' : 'sun');
             lucide.createIcons();
             
@@ -391,6 +406,12 @@
         }
 
         themeToggle.addEventListener('click', toggleTheme);
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        themeIcon.setAttribute('data-lucide', savedTheme === 'dark' ? 'moon' : 'sun');
+        lucide.createIcons();
         document.getElementById('roleFilter').addEventListener('change', renderCharts);
         document.getElementById('regionFilter').addEventListener('change', renderCharts);
         lucide.createIcons();
