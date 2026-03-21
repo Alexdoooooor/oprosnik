@@ -420,6 +420,12 @@ window.setLanguage = function(lang) {
         }
     });
     
+    // Update selector value if it exists
+    const selector = document.getElementById('langSelector');
+    if (selector) {
+        selector.value = lang;
+    }
+    
     // Dispatch event for other scripts that might need to know about language change
     window.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: lang } }));
 }
@@ -436,8 +442,8 @@ window.t = function(key, vars = {}) {
     return text;
 };
 
-// Initialize language on load if needed
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize language on load
+function initI18n() {
     const savedLang = localStorage.getItem('preferredLanguage') || 'ru';
     window.setLanguage(savedLang);
     
@@ -450,4 +456,10 @@ document.addEventListener('DOMContentLoaded', () => {
             window.setLanguage(newLang);
         });
     }
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initI18n);
+} else {
+    initI18n();
+}
