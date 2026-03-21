@@ -12,8 +12,9 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="./i18n.js"></script>
     <style>
+        @import "tailwindcss";
         :root {
-            /* Design Tokens - Dark Mode (Default) - Slightly lighter */
+            /* Design Tokens */
             --bg: #1C1B19;
             --surface: #242321;
             --surface-hover: #2D2C2A;
@@ -26,10 +27,15 @@
             --font-display: 'Instrument Serif', serif;
             --font-body: 'Onest', sans-serif;
             --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Layout Tokens */
+            --container-max-width: 720px; /* Focused quiz width */
+            --header-height: 72px;
+            --section-padding-block: 80px;
+            --section-padding-inline: 24px;
         }
 
         [data-theme="light"] {
-            /* Design Tokens - Light Mode - Slightly more subdued */
             --bg: #F0EFEA;
             --surface: #F7F6F2;
             --surface-hover: #EBEAE5;
@@ -79,32 +85,43 @@
         .text-tiny { font-size: clamp(0.7rem, 0.8vw + 0.4rem, 0.8rem); }
 
         /* Layout */
-        .container {
-            max-width: 720px;
+        .container-custom {
+            max-width: var(--container-max-width);
             width: 100%;
-            margin: 0 auto;
-            padding: clamp(20px, 5vw, 32px);
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            position: relative;
+            margin-inline: auto;
+            padding-inline: var(--section-padding-inline);
         }
 
-        @media (min-width: 768px) {
-            .container {
-                padding: clamp(60px, 8vh, 100px) 32px;
+        .section-padding {
+            padding-block: var(--section-padding-block);
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --section-padding-block: 40px;
             }
         }
 
         /* Header & Theme Toggle */
         header {
-            display: flex;
-            justify-content: flex-end;
-            padding: 16px 24px;
             position: fixed;
             top: 0;
-            right: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(12px);
             z-index: 100;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
         }
 
         .theme-toggle {
@@ -553,22 +570,24 @@
         <div id="progressBar" class="progress-bar"></div>
     </div>
 
-    <header style="display: flex; justify-content: space-between; width: 100%; align-items: center; padding: 12px 24px; position: fixed; top: 0; left: 0; z-index: 100; background: var(--surface); border-bottom: 1px solid var(--border); backdrop-filter: blur(8px);">
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <a href="/" class="btn btn-ghost" style="padding: 8px;" title="На главную">
-                <i data-lucide="home" size="18"></i>
-            </a>
-            <button id="globalBackBtn" class="btn btn-ghost" style="padding: 8px; visibility: hidden;" title="Назад">
-                <i data-lucide="arrow-left" size="18"></i>
-            </button>
-        </div>
-        <div style="display: flex; gap: 12px; align-items: center; margin-left: auto;">
-            <button id="adminLoginBtn" class="btn btn-ghost" title="Вход для администратора">
-                <i data-lucide="log-in" size="18"></i> <span class="hide-mobile" data-i18n="login">Войти</span>
-            </button>
-            <button id="themeToggle" class="theme-toggle" aria-label="Переключить тему">
-                <i data-lucide="moon" id="themeIcon"></i>
-            </button>
+    <header>
+        <div class="container-custom header-inner">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <a href="/" class="btn btn-ghost" style="padding: 8px;" title="На главную">
+                    <i data-lucide="home" size="18"></i>
+                </a>
+                <button id="globalBackBtn" class="btn btn-ghost" style="padding: 8px; visibility: hidden;" title="Назад">
+                    <i data-lucide="arrow-left" size="18"></i>
+                </button>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center;">
+                <button id="adminLoginBtn" class="btn btn-ghost" title="Вход для администратора">
+                    <i data-lucide="log-in" size="18"></i> <span class="hide-mobile" data-i18n="login">Войти</span>
+                </button>
+                <button id="themeToggle" class="theme-toggle" aria-label="Переключить тему">
+                    <i data-lucide="moon" id="themeIcon"></i>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -594,7 +613,7 @@
         </div>
     </div>
 
-    <main class="container" style="padding-top: 100px;">
+    <main class="container-custom section-padding" style="margin-top: var(--header-height);">
         <!-- Welcome Screen -->
         <section id="welcomeScreen" class="screen welcome-screen active">
             <h1 class="display-large" data-i18n="welcome_title">Туризм России 2026</h1>

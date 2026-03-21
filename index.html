@@ -7,45 +7,59 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Onest:wght@100..900&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="/survey/i18n.js"></script>
     <style>
         @import "tailwindcss";
 
         :root {
-            /* Dark Theme (Default) */
+            /* Design Tokens - Dark Mode (Default) - Slightly lighter */
             --bg: #1C1B19;
             --surface: #242321;
             --surface-hover: #2D2C2A;
-            --ink: #F7F6F2;
+            --text: #F7F6F2;
+            --text-muted: #a1a1aa;
             --accent: #01696F;
-            --border: rgba(255, 255, 255, 0.1);
-            --font-sans: 'Inter', sans-serif;
-            --font-serif: 'Instrument Serif', serif;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --accent-soft: rgba(1, 105, 111, 0.1);
+            --border: rgba(255, 255, 255, 0.08);
+            --shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.4), 0 2px 8px -1px rgba(0, 0, 0, 0.2);
+            --font-display: 'Instrument Serif', serif;
+            --font-body: 'Onest', sans-serif;
+            --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Layout Tokens */
+            --container-max-width: 1200px;
+            --section-padding-block: 80px;
+            --section-padding-block-mobile: 40px;
+            --section-padding-inline: 24px;
+            --vertical-rhythm-base: 24px;
         }
 
         [data-theme="light"] {
-            --bg: #F5F5F4;
-            --surface: #FFFFFF;
-            --surface-hover: #FAFAF9;
-            --ink: #1C1917;
-            --border: rgba(0, 0, 0, 0.05);
+            /* Design Tokens - Light Mode - Slightly more subdued */
+            --bg: #F0EFEA;
+            --surface: #F7F6F2;
+            --surface-hover: #EBEAE5;
+            --text: #171614;
+            --text-muted: #71717a;
+            --accent: #01696F;
+            --accent-soft: rgba(1, 105, 111, 0.08);
+            --border: rgba(0, 0, 0, 0.08);
+            --shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.05), 0 2px 8px -1px rgba(0, 0, 0, 0.03);
         }
 
         body {
             background-color: var(--bg);
-            background-image: 
-                radial-gradient(circle at 2px 2px, var(--border) 1px, transparent 0);
-            background-size: 40px 40px;
-            color: var(--ink);
-            font-family: var(--font-sans);
+            color: var(--text);
+            font-family: var(--font-body);
             min-height: 100dvh;
             display: flex;
             flex-direction: column;
             transition: background-color var(--transition), color var(--transition);
             position: relative;
+            overflow-x: hidden;
         }
 
         body::before {
@@ -64,6 +78,13 @@
             filter: invert(0.8) contrast(1.2);
         }
 
+        .container-custom {
+            max-width: var(--container-max-width);
+            margin-inline: auto;
+            padding-inline: var(--section-padding-inline);
+            width: 100%;
+        }
+
         header {
             position: fixed;
             top: 0;
@@ -73,7 +94,11 @@
             background: var(--surface);
             border-bottom: 1px solid var(--border);
             backdrop-filter: blur(8px);
-            padding: 12px 24px;
+            transition: background-color var(--transition), border-color var(--transition);
+        }
+
+        .header-inner {
+            height: 72px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -81,13 +106,12 @@
 
         .nav-container {
             display: flex;
-            gap: 24px;
+            gap: 16px;
             align-items: center;
-            margin-left: auto;
         }
 
         .serif {
-            font-family: var(--font-serif);
+            font-family: var(--font-display);
         }
 
         .nav-link {
@@ -97,54 +121,122 @@
             letter-spacing: 0.05em;
             opacity: 0.6;
             transition: opacity 0.2s;
+            color: var(--text);
+            text-decoration: none;
         }
 
         .nav-link:hover {
             opacity: 1;
         }
 
+        .hero-section {
+            padding-block: var(--section-padding-block);
+        }
+
+        @media (max-width: 959px) {
+            .hero-section {
+                padding-block: var(--section-padding-block-mobile);
+            }
+        }
+
+        .hero-grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        @media (min-width: 960px) {
+            .hero-grid {
+                grid-template-columns: repeat(12, minmax(0, 1fr));
+                gap: 64px;
+            }
+            .hero-left {
+                grid-column: span 7 / span 7;
+            }
+            .hero-right {
+                grid-column: span 5 / span 5;
+            }
+        }
+
+        .hero-right {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        @media (min-width: 960px) {
+            .hero-right {
+                gap: 24px;
+            }
+        }
+
         .hero-title {
-            font-size: clamp(3.5rem, 12vw, 7.5rem);
-            line-height: 0.85;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            line-height: 1.1;
             font-weight: 400;
-            letter-spacing: -0.03em;
+            letter-spacing: -0.02em;
         }
 
         .card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 32px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow);
             transition: background-color var(--transition), border-color var(--transition);
         }
 
-        .btn-primary {
-            background-color: var(--ink);
-            color: var(--bg);
-            padding: 14px 28px;
-            border-radius: 9999px;
-            font-weight: 600;
+        .btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            transition: transform 0.2s, background-color 0.2s, color 0.2s;
+            justify-content: center;
+            padding-block: 14px;
+            padding-inline: 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all var(--transition);
+            border: none;
+            gap: 8px;
+            white-space: nowrap;
+            text-decoration: none;
+            line-height: 1;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
         }
 
         .btn-primary:hover {
-            background-color: var(--accent);
-            color: white;
             transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-muted);
+        }
+
+        .btn-ghost:hover {
+            color: var(--text);
+            background: var(--surface-hover);
+        }
+
+        .btn-large {
+            padding-block: 16px;
+            padding-inline: 32px;
+            font-size: 1rem;
         }
 
         .theme-toggle {
             background: none;
             border: none;
-            color: var(--ink);
+            color: var(--text);
             cursor: pointer;
             padding: 8px;
             border-radius: 50%;
-            transition: background-color 0.2s;
+            transition: background-color var(--transition);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -156,7 +248,7 @@
 
         .banner-container {
             position: relative;
-            border-radius: 32px;
+            border-radius: 24px;
             overflow: hidden;
             aspect-ratio: 16/9;
             background: var(--surface);
@@ -182,7 +274,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding: 32px;
+            padding: 24px;
             color: white;
         }
 
@@ -226,75 +318,137 @@
             color: var(--accent);
             margin: 0 auto 24px;
         }
+
+        @media (max-width: 640px) {
+            .hide-mobile {
+                display: none;
+            }
+            .mobile-menu-toggle {
+                display: flex;
+                background: none;
+                border: none;
+                color: var(--text);
+                padding: 8px;
+                cursor: pointer;
+            }
+            .mobile-menu {
+                display: none;
+                position: absolute;
+                top: 72px;
+                right: 0;
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: 0 0 12px 12px;
+                padding: 16px;
+                flex-direction: column;
+                gap: 16px;
+                z-index: 999;
+                box-shadow: var(--shadow);
+                min-width: 200px;
+            }
+            .mobile-menu.active {
+                display: flex;
+            }
+        }
+        @media (min-width: 641px) {
+            .mobile-menu-toggle { display: none; }
+            .mobile-menu { display: none; }
+        }
     </style>
 </head>
-<body class="p-6 md:p-12">
+<body class="flex flex-col">
     <header>
-        <a href="/" class="p-2 rounded-full hover:bg-[var(--surface-hover)] transition-colors" title="На главную">
-            <i data-lucide="home" class="w-5 h-5"></i>
-        </a>
-        <nav class="nav-container">
-            <a href="/survey/index.html" class="nav-link">Опрос</a>
-            <a href="#" id="analyticsLink" class="nav-link">Аналитика</a>
-            <button id="themeToggle" class="theme-toggle" title="Переключить тему">
-                <i data-lucide="moon" id="themeIcon"></i>
+        <div class="container-custom header-inner">
+            <div class="flex items-center gap-3">
+                <a href="/" class="btn btn-ghost p-2" title="На главную">
+                    <i data-lucide="home" size="18"></i>
+                </a>
+            </div>
+            <nav class="nav-container">
+                <a href="/survey/index.html" class="nav-link hide-mobile" data-i18n="survey">Опрос</a>
+                <a href="#" id="analyticsLink" class="nav-link hide-mobile" data-i18n="analytics">Аналитика</a>
+                <button id="adminLoginBtn" class="btn btn-ghost hide-mobile" title="Вход для администратора">
+                    <i data-lucide="log-in" size="18"></i> <span data-i18n="login">Войти</span>
+                </button>
+                <button id="themeToggle" class="theme-toggle" title="Переключить тему">
+                    <i data-lucide="moon" id="themeIcon" size="18"></i>
+                </button>
+                <button class="mobile-menu-toggle" aria-label="Меню">
+                    <i data-lucide="menu"></i>
+                </button>
+            </nav>
+        </div>
+        <div class="mobile-menu">
+            <a href="/survey/index.html" class="nav-link" data-i18n="survey">Опрос</a>
+            <a href="#" id="mobileAnalyticsLink" class="nav-link" data-i18n="analytics">Аналитика</a>
+            <button id="mobileAdminLoginBtn" class="btn btn-ghost" title="Вход для администратора">
+                <i data-lucide="log-in" size="18"></i> <span data-i18n="login">Войти</span>
             </button>
-        </nav>
+            <button id="mobileThemeToggle" class="theme-toggle" title="Переключить тему">
+                <i data-lucide="moon" id="mobileThemeIcon" size="18"></i>
+            </button>
+        </div>
     </header>
 
-    <main class="max-w-6xl mx-auto w-full flex-1 flex flex-col justify-center pt-32">
-        <div class="grid lg:grid-cols-12 gap-16 items-center">
-            <div class="lg:col-span-7">
-                <h1 class="hero-title serif mb-10">
-                    Аналитика <br>
-                    <span class="italic opacity-80">и стратегия</span> <br>
-                    в туризме
-                </h1>
-                <p class="text-xl md:text-2xl opacity-70 max-w-xl mb-12 leading-relaxed">
-                    Исследование ландшафта российского туризма 2026. 
-                    Помогаем отрасли расти на основе данных и экспертных оценок.
-                </p>
-                <div class="flex flex-wrap gap-6 items-center">
-                    <a href="/survey/index.html" class="btn-primary text-lg">
-                        Пройти опрос 2026
-                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                    </a>
-                    <button id="resultsBtn" class="inline-flex items-center gap-2 font-semibold text-lg hover:text-[var(--accent)] transition-colors group">
-                        Смотреть результаты
-                        <i data-lucide="bar-chart-2" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="lg:col-span-5">
-                <div class="banner-container group cursor-pointer" id="bannerBtn">
-                    <img src="/banner.png" alt="Результаты опроса" class="banner-img" referrerPolicy="no-referrer">
-                    <div class="banner-overlay">
-                        <span class="text-xs font-bold uppercase tracking-widest mb-2 opacity-80">Ваш бонус</span>
-                        <h3 class="text-2xl serif font-medium mb-2">Полный аналитический отчет</h3>
-                        <p class="text-sm opacity-80">
-                            Пройдите опрос и получите мгновенный доступ к интерактивному дашборду с результатами экспертного сообщества.
+    <main class="flex-1 pt-[72px]">
+        <section class="hero-section">
+            <div class="container-custom">
+                <div class="hero-grid items-start">
+                    <!-- Left Block (7 columns) -->
+                    <div class="hero-left flex flex-col">
+                        <h1 class="hero-title serif mb-6" data-i18n="main_title">
+                            Аналитика и стратегия в туризме
+                        </h1>
+                        <p class="text-lg md:text-xl opacity-70 max-w-xl mb-8 leading-relaxed" data-i18n="main_subtitle">
+                            Исследование ландшафта российского туризма 2026. 
+                            Помогаем отрасли расти на основе данных и экспертных оценок.
                         </p>
-                    </div>
-                </div>
-                
-                <div class="mt-8 card">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full bg-[var(--accent)]/10 flex items-center justify-center">
-                            <i data-lucide="trending-up" class="w-6 h-6 text-[var(--accent)]"></i>
+                        <div class="flex flex-wrap gap-4 items-center">
+                            <a href="/survey/index.html" class="btn btn-primary btn-large" data-i18n="btn_start_survey">
+                                Пройти опрос 2026
+                                <i data-lucide="arrow-right" size="20"></i>
+                            </a>
+                            <button id="resultsBtn" class="btn btn-ghost btn-large group">
+                                <span data-i18n="btn_view_results_main">Смотреть результаты</span>
+                                <i data-lucide="bar-chart-2" size="20" class="group-hover:translate-x-1 transition-transform"></i>
+                            </button>
                         </div>
-                        <h3 class="font-bold text-xl">Тренды и прогнозы</h3>
                     </div>
-                    <p class="opacity-70 leading-relaxed">
-                        Глубокий анализ изменений потребительского поведения и инфраструктурных вызовов отрасли на ближайшие годы.
-                    </p>
+
+                    <!-- Right Block (5 columns) -->
+                    <div class="hero-right">
+                        <div class="banner-container group cursor-pointer" id="bannerBtn">
+                            <img src="/banner.png" alt="Результаты опроса" class="banner-img" referrerPolicy="no-referrer">
+                            <div class="banner-overlay">
+                                <span class="text-[10px] font-bold uppercase tracking-widest mb-2 opacity-80" data-i18n="bonus_title">Ваш бонус</span>
+                                <h3 class="text-xl serif font-medium mb-2" data-i18n="bonus_report">Полный аналитический отчет</h3>
+                                <p class="text-xs opacity-80" data-i18n="bonus_desc">
+                                    Пройдите опрос и получите мгновенный доступ к интерактивному дашборду с результатами экспертного сообщества.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-10 h-10 rounded-full bg-[var(--accent)]/10 flex items-center justify-center">
+                                    <i data-lucide="trending-up" class="w-5 h-5 text-[var(--accent)]"></i>
+                                </div>
+                                <h3 class="font-bold text-lg" data-i18n="trends_title">Тренды и прогнозы</h3>
+                            </div>
+                            <p class="text-sm opacity-70 leading-relaxed" data-i18n="trends_desc">
+                                Глубокий анализ изменений потребительского поведения и инфраструктурных вызовов отрасли на ближайшие годы.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
 
-    <footer class="mt-24 pt-8 border-t border-[var(--border)] flex flex-col md:flex-row justify-between gap-6">
-        <div class="footer-text">© 2026 Исследование туристической отрасли</div>
+    <footer class="border-t border-[var(--border)] py-8">
+        <div class="container-custom">
+            <div class="footer-text" data-i18n="footer_copy">© 2026 Исследование туристической отрасли</div>
+        </div>
     </footer>
 
     <!-- Access Denied Modal -->
@@ -303,15 +457,15 @@
             <div class="lock-icon">
                 <i data-lucide="lock" class="w-full h-full"></i>
             </div>
-            <h2 class="text-3xl serif mb-4">Доступ ограничен</h2>
-            <p class="opacity-70 mb-8">
+            <h2 class="text-3xl serif mb-4" data-i18n="access_denied_title">Доступ ограничен</h2>
+            <p class="opacity-70 mb-8" data-i18n="access_denied_text">
                 Результаты аналитики доступны только участникам исследования. Пожалуйста, пройдите опрос, чтобы открыть доступ к дашборду.
             </p>
             <div class="flex flex-col gap-4">
-                <a href="/survey/index.html" class="btn-primary justify-center">
+                <a href="/survey/index.html" class="btn btn-primary btn-large justify-center" data-i18n="btn_to_survey">
                     Пройти опрос
                 </a>
-                <button onclick="closeModal()" class="text-sm font-medium opacity-50 hover:opacity-100">
+                <button onclick="closeModal()" class="btn btn-ghost text-sm" data-i18n="btn_close">
                     Закрыть
                 </button>
             </div>
@@ -322,14 +476,34 @@
         // Initialize Lucide icons
         lucide.createIcons();
 
+        // Mobile Menu
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Mobile Menu Actions
+        document.getElementById('mobileAnalyticsLink').addEventListener('click', (e) => {
+            checkAccess(e);
+            mobileMenu.classList.remove('active');
+        });
+        document.getElementById('mobileAdminLoginBtn').addEventListener('click', () => {
+            window.location.href = '/survey/admin.html';
+        });
+
         // Theme Toggle Logic
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
+        const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+        const mobileThemeIcon = document.getElementById('mobileThemeIcon');
         const html = document.documentElement;
 
         function updateThemeIcons(theme) {
             const iconName = theme === 'dark' ? 'sun' : 'moon';
             themeIcon.setAttribute('data-lucide', iconName);
+            mobileThemeIcon.setAttribute('data-lucide', iconName);
             lucide.createIcons();
         }
 
@@ -342,6 +516,7 @@
         }
 
         themeToggle.addEventListener('click', toggleTheme);
+        mobileThemeToggle.addEventListener('click', toggleTheme);
 
         // Load saved theme
         const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -353,6 +528,13 @@
         const analyticsLink = document.getElementById('analyticsLink');
         const bannerBtn = document.getElementById('bannerBtn');
         const accessModal = document.getElementById('accessModal');
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+
+        if (adminLoginBtn) {
+            adminLoginBtn.addEventListener('click', () => {
+                window.location.href = '/survey/admin.html';
+            });
+        }
 
         function checkAccess(e) {
             e.preventDefault();
